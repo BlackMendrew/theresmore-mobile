@@ -81,6 +81,14 @@ const seedParam = Number(new URLSearchParams(location.search).get('seed'));
 try { game = new Game({ data, save, seed: Number.isFinite(seedParam) && seedParam > 0 ? seedParam : (Date.now() % 100000) + 1 }); }
 catch (e) { window.__bootErr = (e.stack || e.message); throw e; }
 window.__game = game; // 便于自动化测试/调试
+/* 原版离线机制（main.js.src:64764 _initOfflineProgress）：
+     离开页面时 beforeunload 写 localStorage['last'] = Date.now()；
+     下次打开时把 (now - last) 的**秒数**加进 `offline` 资源（资源上限 28800 = 8 小时）。
+   注意：原版**不补算产量**——离线时间只记成 `offline` 资源（法术消耗用），这里照抄。 */
+try {
+  const lastTs = Number(JSON.parse(localStorage.getItem('last'))) || 0;
+  if (lastTs > 0) game.applyOffline((Date.now() - lastTs) / 1000);
+} catch {}
 
 /* ==================== 可见性口径（原版各 Store getter） ==================== */
 const DF = () => game.run.dfc;
@@ -633,8 +641,6 @@ const viewMore = () => {
   return `
   <div class="sec-title">${game.data.name('', 'settings')}</div>
   <div class="card">
-    <div class="row"><div class="grow"><div class="t">${game.data.name('', 'settings')}</div><div class="s"></div></div>
-      ${[1, 10, 60, 600].map((s) => `<button class="btn btn-sm ${game.clock.scale === s ? 'btn-primary' : ''}" data-speed="${s}">×${s}</button>`).join(' ')}</div>
     <div class="row"><div class="grow"><div class="t">${game.data.name('', 'load_from_textarea')}</div><div class="s"></div></div>
       <button class="btn btn-sm" data-act="export">${game.data.name('', 'save_to_clipboard')}</button><button class="btn btn-sm" data-act="import">${game.data.name('', 'load_from_textarea')}</button></div>
     <div class="row"><div class="grow"><div class="t">${game.data.name('', 'hard_reset')}</div><div class="s"></div></div>
@@ -1089,7 +1095,7 @@ function startGather(id) {
 function stopGather() { if (gatherTimer) clearInterval(gatherTimer); gatherTimer = null; gatherId = null; }
 
 document.addEventListener('click', (ev) => {
-  const t = ev.target.closest('[data-tab],[data-ancestor],[data-gather],[data-speed],[data-act],[data-detail],[data-close],[data-build],[data-research],[data-recruit],[data-attack],[data-oracle],[data-job],[data-away],[data-order],[data-scout],[data-queue],[data-queue-open],[data-queue-close],[data-qstrict],[data-unqueue],[data-legacy],[data-defend],[data-war],[data-mkt],[data-notify-close],[data-ach-tab],[data-prayer],[data-confirm-ok],[data-confirm-cancel],[data-dismiss],[data-delegation],[data-army],[data-dip],[data-donate],[data-btab],[data-ttab],[data-spellfilter],[data-spy-pick],[data-spy-target],[data-spy-start],[data-softreset],[data-softreset-close],[data-softreset-open],[data-softreset2],[data-legsel],[data-tst],[data-diff]');
+  const t = ev.target.closest('[data-tab],[data-ancestor],[data-gather],[data-act],[data-detail],[data-close],[data-build],[data-research],[data-recruit],[data-attack],[data-oracle],[data-job],[data-away],[data-order],[data-scout],[data-queue],[data-queue-open],[data-queue-close],[data-qstrict],[data-unqueue],[data-legacy],[data-defend],[data-war],[data-mkt],[data-notify-close],[data-ach-tab],[data-prayer],[data-confirm-ok],[data-confirm-cancel],[data-dismiss],[data-delegation],[data-army],[data-dip],[data-donate],[data-btab],[data-ttab],[data-spellfilter],[data-spy-pick],[data-spy-target],[data-spy-start],[data-softreset],[data-softreset-close],[data-softreset-open],[data-softreset2],[data-legsel],[data-tst],[data-diff]');
   if (!t) return;
   const d = t.dataset;
   if (d.ancestor) {   // 原版 AncestorsStore.updateAncestor：写入 + 跑 gen + 首启成就检查
@@ -1180,7 +1186,6 @@ document.addEventListener('click', (ev) => {
     renderTop(); renderView(); return;
   }
   if (d.gather) { game.manualGather(d.gather); renderTop(true); renderView(); return; }
-  if (d.speed) { game.clock.scale = Number(d.speed); renderTop(); renderView(); return; }
   if (d.achTab) { game._achTab = d.achTab; renderView(); return; }
   if (d.act === 'res-panel') {   // 点顶部整块资源面板：展开/收起（状态记忆在 localStorage）
     resPanelOpen = !resPanelOpen;
@@ -1309,11 +1314,44 @@ function viewSig(now = performance.now()) {
 let lastSig = null;
 
 /* ==================== 主循环 ==================== */
+/* 原版的游戏循环跑在 Web Worker 里（main.js.src:6166/64745），切到后台也会继续跑；而且它按
+   "真实经过时间"积分产量（_processInterval 64758：t = performance.now() - lastInterval）。
+   复刻用 requestAnimationFrame，后台会被浏览器暂停 → 这里在回到前台时按真实时间补算，
+   效果与原版一致（关闭标签页另算，见启动处的 offline 资源）。
+   上限 8 小时与原版 offline 资源上限一致；分片推进避免一次补太久卡住界面
+   （产量按时间线性积分，分片大小不影响资源总量；对"每 tick 一次"的外交倒计时是近似）。 */
+const CATCHUP_MAX_MS = 8 * 3600 * 1000;
+function catchUp(elapsedReal) {
+  const total = Math.min(Math.max(0, elapsedReal), CATCHUP_MAX_MS);
+  if (total < 250) return 0;
+  const step = total > 30 * 60 * 1000 ? 5000 : Math.max(250, game.intervalMs);
+  let left = total, ticks = 0;
+  while (left > 0 && ticks < 40000) {
+    const stepReal = Math.min(left, step);
+    game.tick(stepReal * game.clock.scale);
+    left -= stepReal; ticks++;
+  }
+  return total;
+}
+window.__catchUp = catchUp;   // 自动化测试用（和 __fmt/__game 一类）
+function resumeFromBackground() {
+  const now = performance.now();
+  const real = now - lastFrame;
+  lastFrame = now;
+  if (real > 250) catchUp(real);
+}
+document.addEventListener('visibilitychange', () => { if (!document.hidden) resumeFromBackground(); });
+window.addEventListener('pageshow', resumeFromBackground);
+window.addEventListener('focus', resumeFromBackground);
+
 function frame(now) {
-  const dt = Math.min(now - lastFrame, 2000) * game.clock.scale;
+  const real = now - lastFrame;
   lastFrame = now;
   const err = (where, e) => (window.__viewErrs ||= []).push(where + ': ' + (e && e.message ? e.message : e));
-  try { game.tick(dt); } catch (e) { err('tick', e); }
+  try {
+    if (real > 2000) catchUp(real);                   // 刚回到前台（rAF 被暂停过）→ 补算
+    else game.tick(real * game.clock.scale);
+  } catch (e) { err('tick', e); }
   try { renderTop(); renderNotification(); renderConfirm(); renderDifficulty(); renderToasts(); } catch (e) { err('overlay', e); }
   // 转生面板：原版 LegacyStore 构造函数（main.js.src:52831）
   //   flag===2 → softReset2Confirm(3)；flagb===2 → toggleSoftReset("dip_"+boss, 0, false)
@@ -1352,4 +1390,7 @@ if (game.run.flagd === 0) showDifficulty = true;
 renderDifficulty();
 renderTabs(); renderTop(); renderView(); renderQueuePanel(); requestAnimationFrame(frame);
 setInterval(() => { if (game.autoSave) game.saveToStorage(); }, 5000);
-window.addEventListener('beforeunload', () => game.saveToStorage());
+window.addEventListener('beforeunload', () => {
+  try { localStorage.setItem('last', JSON.stringify(Date.now())); } catch {}   // 原版 _initOfflineProgress
+  game.saveToStorage();
+});
