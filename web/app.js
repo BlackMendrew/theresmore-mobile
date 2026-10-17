@@ -61,6 +61,8 @@ const TABS = [
 let tab = 'build';
 let buildTab = 1;          // 建造页子页：1 城市 / 2 定居点 / 3 深渊
 let techTab = 'research';  // 研究页子页：research 待研究 / completed 已完成
+// 军队页子页（原版分包 918：军队 / 探索 / 间谍（需间谍科技）/ 攻击 / 驻军，带计数）
+let armyTab = 'army';
 let queueOpen = false;
 let showDifficulty = false;   // 原版 MainStore.showDifficulty（难度选择面板，不可关闭）
 // 资源面板：收起=小字网格（名称+数量/上限），展开=逐行「名称/数量上限/速率」；状态记在 localStorage
@@ -149,12 +151,22 @@ const qtyBuilding = (id) => { const i = game.idxs.buildings?.[id]; return i === 
 const qtyUnit = (id) => { const r = (game.run.army || []).find((a) => a.id === id); return r ? { owned: r.value, away: r.away } : { owned: 0, away: 0 }; };
 
 /* ==================== 渲染：顶栏 ==================== */
+/* 每秒产量指纹：只按"资源数值/上限"做签名时，资源顶到上限（或被断粮掐停）后数值不再变化，
+   于是派工/撤工、建造产出建筑造成的速率变化永远刷不出来（用户实测："加了工匠，工具还是 0/秒"）。
+   这里把各资源速率也纳入签名；perSecond 会遍历 modifier，所以 250ms 缓存一次。 */
+let _rateAt = 0, _rateSig = '';
+function rateSig(now) {
+  if (now - _rateAt < 250) return _rateSig;
+  _rateAt = now;
+  _rateSig = (game.run.resources || []).map((r) => (game.perSecond(r.id) || 0).toFixed(2)).join(',');
+  return _rateSig;
+}
 function renderTop(force = false) {
   // 节流：数值签名未变且距上次渲染 <250ms 就跳过（避免 60fps 全量重绘）
   const sig = (game.run.resources || []).map((r) => Math.floor(r.value) + ':' + Math.round(game.capOf(r.id))).join('|')
     + '|' + (game.run.queue || []).length + '|' + Math.round(game.resourceValue('offline') || 0)
     + '|' + (game.attackInProgress ? Math.round(game.attackInProgress.attack) : '') + '|' + game.clock.scale
-    + '|' + game.run.ancestors;
+    + '|' + game.run.ancestors + '|r' + rateSig(performance.now());
   const now = Date.now();
   if (!force && sig === window.__topSig && now - (window.__topAt || 0) < 250) return;
   window.__topSig = sig; window.__topAt = now;
@@ -165,6 +177,10 @@ function renderTopInner() {
   const ids = [...order.filter((id) => visible.includes(id)), ...visible.filter((id) => !order.includes(id))];
   // 全部已解锁资源放进"一块面板"：收起时小字显示 名称 + 数量/上限；点面板展开后逐行显示速率
   const strip = $('#resstrip');
+  // 原版规则：食物为 0 时除食物外全部停产（getTimerValue 开头 `if (0 === food && 'food' !== id) return 0`）。
+  // 界面给个视觉提示，免得玩家以为"派了工匠却不产工具"。
+  const starving = game.resourceValue('food') <= 0;
+  if (strip.classList.contains('starving') !== starving) strip.classList.toggle('starving', starving);
   const stripKey = (resPanelOpen ? 'open|' : 'closed|') + ids.join(',');
   if (strip.dataset.key !== stripKey) {   // 资源集合或形态变化时才重建骨架，避免每 250ms 整块 innerHTML
     strip.dataset.key = stripKey;
@@ -180,7 +196,8 @@ function renderTopInner() {
     if (!el) return;
     const v = game.resourceValue(id), cap = game.capOf(id), rate = game.perSecond(id);
     const cls = (resPanelOpen ? 'res-row' : 'res-item')
-      + (cap > 0 && v >= cap ? ' full' : cap > 0 && v < cap * 0.1 ? ' warn' : '');
+      + (cap > 0 && v >= cap ? ' full' : cap > 0 && v < cap * 0.1 ? ' warn' : '')
+      + (starving && id === 'food' ? ' starve' : '');
     if (el.className !== cls) el.className = cls;
     const nEl = el.children[0], vEl = el.children[1];
     const name = resName(id);
@@ -411,7 +428,6 @@ const viewArmy = () => {
     : `<div class="sec-title">${game.data.name('', 'cat_scouting')}</div>
       <div class="card"><div class="row"><div class="grow"><div class="t">${game.data.name('', 'explore')}</div><div class="s">${game.data.name('', 'scout_empty')}</div></div></div></div>`;
   // 间谍段（原版分包 918：visibleEspionage 才出现；目标选择 select_spy / no_spy_enemy + send_to_spy）
-  const spyUnits = list.filter((u) => u.type === 'spy');
   let spyBlock = '';
   if (game.visibleEspionage) {
     const opts = enemyOptions();
@@ -433,11 +449,8 @@ const viewArmy = () => {
       ${Object.keys(game.costsSpy).length ? `<div class="row"><div class="grow"><div class="s">${Object.entries(game.costsSpy).map(([id, v]) => `${resName(id)} ${Math.round(v)}`).join('　')}</div></div></div>` : ''}
     </div>`;
   }
-  // 原版军队子页（分包 918 的 ArmyPanel）直接 map `visibleArmy`：army/recon/spy 都在这里，
-  // 点单位名 = 招募（addArmyQty）。复刻版把军队各子页拍平成单页，因此侦察兵/间谍的招募入口
-  // 也必须落在这些单位行里（否则侦察/间谍只能靠引擎直改数据，真机点击流程走不通）。
-  const armyUnits = list;
-  const rows = armyUnits.map((u) => {
+  // 原版军队子页（分包 918 的 ArmyPanel）直接 map `visibleArmy`：army/recon/spy 都在这里，点单位名 = 招募。
+  const rows = list.map((u) => {
     const { owned, away } = qtyUnit(u.id);
     const idx = (order.away || []).indexOf(u.id);
     const canRecruit = owned < (u.cap ?? Infinity) && game.armyOwned() < game.armyCap();
@@ -455,18 +468,12 @@ const viewArmy = () => {
       </div>
     </div>`;
   }).join('');
-  // 出征/据点（原版军队子页「出征」那头：可攻击据点列表 + progressAttack 进度条，源码分包 918 的
-  // B(type='attack')）。以前这段被放在外交页，但外交页签只在"已发现王国"时可见 → 只侦察到据点的
-  // 玩家根本点不到「出征」。挪回军队页后与页签解锁条件无关。
-  // 神谕（原版军队子页"出征"那条的 oracle 区，源码分包 918 的 B(type='attack')）：
-  // 可见性 = MainStore.showOracle（dfc 0/99）&& 已建成神示所 oracle_b（源码 get oracle 42289）；
-  // 原版是"选目标 → 单按钮"，复刻沿用每行按钮的布局，故按钮落在据点行里。
+  // 出征/据点（原版分包 918 的 B(type='attack')）：可攻击据点列表 + 进度条 + 神谕 + 出征成本
   const atkM = game.missionInfo('attack');
   const oracleM = game.missionInfo('oracle');
   const oracle = game.showOracle && !!game.reqgen.checkOwned('building', 'oracle_b', 1);
-  const busy = atkM.active || oracleM.active;   // 出征/神谕互斥（源码 42526/42531 的 !attackInProgress / !oracleInProgress）
-  // 原版神谕按钮的 disabled = !checkAttack（未出征/有目标/出征成本买得起）；复刻是逐行按钮，
-  // 目标由点哪一行决定，所以这里只按"买得起"预判（真正的门槛仍由引擎 startOracle → checkAttack 把关）。
+  const busy = atkM.active || oracleM.active;   // 出征/神谕互斥（源码 42526/42531）
+  // 原版神谕按钮 disabled = !checkAttack；复刻是逐行按钮，目标由点哪一行决定，这里只按"买得起"预判
   const canOracle = (() => {
     const c = game.costsAttack, ks = Object.keys(c);
     return ks.length > 0 && ks.every((id) => game.resourceValue(id) >= c[id]);
@@ -480,27 +487,63 @@ const viewArmy = () => {
       ${oracle ? `<button class="btn btn-sm" data-oracle="${e.id}" ${busy || e.owned || !canOracle ? 'disabled' : ''}>${T('oracle_button')}</button>` : ''}
       <button class="btn btn-sm btn-accent" data-attack="${e.id}" ${busy || e.owned ? 'disabled' : ''}>${game.data.name('', 'send_to_attack')}</button>
     </div>`).join('') : `<div class="empty">${game.data.name('', 'no_attackable_enemy')}</div>`}</div>`;
-  return `${scoutBlock}${spyBlock}${enemyBlock}
-  <div class="sec-title">${game.data.name('', 'army')}（${fmt(game.armyOwned())}/${fmt(game.armyCap())}）</div>
+  const attackCosts = unitCosts('army');
+  const attackBlock = `${enemyBlock}${Object.keys(attackCosts).length ? `<div class="sec-title">${T('attack')}</div>
+  <div class="card"><div class="row"><div class="grow"><div class="s">${Object.entries(attackCosts).map(([id, v]) => `${resName(id)} ${Math.round(v)}`).join('　')}</div></div></div></div>` : ''}`;
+  // 驻军页（原版"驻军"子页）：来犯敌袭 + 城市的防御 + 各兵种留守数
+  const homeRows = (game.run.army || []).filter((a) => a.value > 0 && a.id !== 'settlement_defenses');
+  const homeOf = (a) => Math.max(0, a.value - (a.away || 0));
+  const defTotal = homeRows.reduce((sum, a) => {
+    const d = game.data.byId.unit.get(a.id); if (!d) return sum;
+    const m = game.armyMods(a.id);
+    return sum + homeOf(a) * (d.defense + (m[1] || 0));
+  }, 0);
+  const inc = game.attackInProgress;
+  const garrisonBlock = `<div class="sec-title">${T('garrison')}</div>
+  ${inc ? `<div class="card"><div class="row"><div class="grow"><div class="t">${T('not_attack_incoming')}</div>
+    <div class="s">${game.data.name('dip_', inc.id)}　${Math.round(inc.attack)}%</div>
+    <div class="atkbar"><div style="width:${Math.max(0, Math.min(100, inc.attack))}%"></div></div></div>
+    <button class="btn btn-sm btn-accent" data-defend="${inc.id}">${T('garrison')}</button></div></div>` : ''}
+  <div class="card">
+    <div class="row"><div class="grow"><div class="t">${T('uni_settlement_defenses_description')}</div><div class="s">${fmt(defTotal)}</div></div></div>
+    ${homeRows.length ? homeRows.map((a) => `<div class="row"><div class="grow"><div class="t">${game.data.name('uni_', a.id)}</div>
+      <div class="s">${fmt(homeOf(a))} / ${fmt(a.value)}</div></div></div>`).join('') : `<div class="empty">${game.data.name('', 'army_empty')}</div>`}
+  </div>`;
+  // 军队页子页签（原版 918：军队 / 探索 / 间谍 / 攻击 / 驻军），计数口径按原版实测：
+  //   军队 = ownedCount/cap；探索·间谍 = away/总；攻击 = army away/总；驻军 = (总−away)/总
+  const unitSum = (type, f) => (game.run.army || [])
+    .filter((a) => game.data.byId.unit.get(a.id)?.type === type).reduce((sum, a) => sum + (f(a) || 0), 0);
+  const ownedAll = game.armyOwned();
+  const awayAll = (game.run.army || []).filter((a) => a.id !== 'settlement_defenses').reduce((sum, a) => sum + (a.away || 0), 0);
+  const ARMY_TABS = [
+    ['army', T('army'), ownedAll, game.armyCap()],
+    ['explore', T('explore'), unitSum('recon', (a) => a.away), unitSum('recon', (a) => a.value)],
+    ...(game.visibleEspionage ? [['spy', T('spy'), unitSum('spy', (a) => a.away), unitSum('spy', (a) => a.value)]] : []),
+    ['attack', T('attack'), unitSum('army', (a) => a.away), unitSum('army', (a) => a.value)],
+    ['garrison', T('garrison'), ownedAll - awayAll, ownedAll],
+  ];
+  const active = ARMY_TABS.some(([k]) => k === armyTab) ? armyTab : 'army';
+  armyTab = active;
+  const tabRow = `<div class="subtabs">${ARMY_TABS.map(([k, label, n, d]) =>
+    `<button class="btn btn-sm ${active === k ? 'btn-primary' : ''}" data-atab="${k}">${label} ${fmt(n)} / ${fmt(d)}</button>`).join('')}</div>`;
+  const panel = (k, html) => `<div class="apanel" data-apanel="${k}"${active === k ? '' : ' hidden'}>${html}</div>`;
+  const armyBlock = `<div class="sec-title">${game.data.name('', 'army')}（${fmt(ownedAll)}/${fmt(game.armyCap())}）</div>
   <div class="card">
     <div class="row"><div class="grow"><div class="s">${game.armyPresetInfo().text}</div></div>
       <button class="btn btn-sm" data-army="save-preset">${game.data.name('', 'army_preset_save')}</button>
       <button class="btn btn-sm btn-primary" data-army="build-preset">${game.data.name('', 'army_preset_build')}</button>
     </div>
-    <div class="row"><div class="grow"><div class="s">${game.data.name('', 'army')}：${fmt(game.armyOwned())}/${fmt(game.armyCap())}</div></div>
+    <div class="row"><div class="grow"><div class="s">${game.data.name('', 'army')}：${fmt(ownedAll)}/${fmt(game.armyCap())}</div></div>
       <button class="btn btn-sm" data-army="add-all">${game.data.name('', 'add_all')}</button>
       <button class="btn btn-sm" data-army="remove-all">${game.data.name('', 'remove_all')}</button>
     </div>
-    ${(() => {   // 运行成本：已出征数 × 单次出征消耗（原版口径）
-      const cost = unitCosts('army');
-      const l = Object.entries(cost);
-      return l.length ? `<div class="row"><div class="grow"><div class="s">${l.map(([id, v]) => `${resName(id)} ${Math.round(v)}`).join('　')}</div></div></div>` : '';
-    })()}
     <div class="row"><div class="grow"><div class="s">${game.data.name('', game.orderByBattleOrder ? 'sort_by_battle_order' : 'sort_by_battle_order_disable')}</div></div>
       <button class="btn btn-sm ${game.orderByBattleOrder ? 'btn-primary' : ''}" data-army="sort-toggle">${game.data.name('', 'sort_by_battle_order')}</button>
     </div>
   </div>
   <div class="card">${rows || `<div class="empty">${game.data.name('', 'army_empty')}</div>`}</div>`;
+  return `${tabRow}${panel('army', armyBlock)}${panel('explore', scoutBlock)}`
+    + `${game.visibleEspionage ? panel('spy', spyBlock) : ''}${panel('attack', attackBlock)}${panel('garrison', garrisonBlock)}`;
 };
 
 /* ---------- 人口页（原版分包 180：forceMax = 失业 0 → + 键禁用；minReached = 当前 0 → − 键禁用） ---------- */
@@ -866,12 +909,24 @@ function renderTabs() {
 }
 
 /* ==================== 覆盖层 ==================== */
-function openSheet(title, rows) {
+const sheetRowsHtml = (rows) => rows.map(([k, v]) => `<div class="kv"><span class="k">${k}</span><span>${v}</span></div>`).join('');
+let sheetLive = null;   // 详情面板打开时记住 {kind,id}，之后每 250ms 按最新状态重算（倒计时/缺口会跟着走）
+function openSheet(title, rows, live = null) {
+  sheetLive = live;
   $('#sheet-title').textContent = title;
-  $('#sheet-body').innerHTML = rows.map(([k, v]) => `<div class="kv"><span class="k">${k}</span><span>${v}</span></div>`).join('');
+  $('#sheet-body').innerHTML = sheetRowsHtml(rows);
   $('#sheet').hidden = false;
 }
-const closeSheet = () => ($('#sheet').hidden = true);
+function closeSheet() { sheetLive = null; $('#sheet').hidden = true; }
+function refreshSheet() {
+  const el = $('#sheet');
+  if (!sheetLive || !el || el.hidden) return;
+  const body = $('#sheet-body');
+  if (!body) return;
+  let html = '';
+  try { html = sheetRowsHtml(detailRows(sheetLive.kind, sheetLive.id)); } catch { return; }
+  if (html !== body.innerHTML) body.innerHTML = html;   // 值/缺口/倒计时变了才写 DOM
+}
 
 /* 确认层：原版 showConfirm（main.js.src:64618 / 70082）——danger 时标题为「警告 (n/N)」 */
 let confirmState = null;
@@ -1095,7 +1150,7 @@ function startGather(id) {
 function stopGather() { if (gatherTimer) clearInterval(gatherTimer); gatherTimer = null; gatherId = null; }
 
 document.addEventListener('click', (ev) => {
-  const t = ev.target.closest('[data-tab],[data-ancestor],[data-gather],[data-act],[data-detail],[data-close],[data-build],[data-research],[data-recruit],[data-attack],[data-oracle],[data-job],[data-away],[data-order],[data-scout],[data-queue],[data-queue-open],[data-queue-close],[data-qstrict],[data-unqueue],[data-legacy],[data-defend],[data-war],[data-mkt],[data-notify-close],[data-ach-tab],[data-prayer],[data-confirm-ok],[data-confirm-cancel],[data-dismiss],[data-delegation],[data-army],[data-dip],[data-donate],[data-btab],[data-ttab],[data-spellfilter],[data-spy-pick],[data-spy-target],[data-spy-start],[data-softreset],[data-softreset-close],[data-softreset-open],[data-softreset2],[data-legsel],[data-tst],[data-diff]');
+  const t = ev.target.closest('[data-tab],[data-ancestor],[data-gather],[data-act],[data-detail],[data-close],[data-build],[data-research],[data-recruit],[data-attack],[data-oracle],[data-job],[data-away],[data-order],[data-scout],[data-queue],[data-queue-open],[data-queue-close],[data-qstrict],[data-unqueue],[data-legacy],[data-defend],[data-war],[data-mkt],[data-notify-close],[data-ach-tab],[data-prayer],[data-confirm-ok],[data-confirm-cancel],[data-dismiss],[data-delegation],[data-army],[data-dip],[data-donate],[data-btab],[data-ttab],[data-atab],[data-spellfilter],[data-spy-pick],[data-spy-target],[data-spy-start],[data-softreset],[data-softreset-close],[data-softreset-open],[data-softreset2],[data-legsel],[data-tst],[data-diff]');
   if (!t) return;
   const d = t.dataset;
   if (d.ancestor) {   // 原版 AncestorsStore.updateAncestor：写入 + 跑 gen + 首启成就检查
@@ -1111,6 +1166,7 @@ document.addEventListener('click', (ev) => {
   }
   if (d.tab) { tab = d.tab; renderTabs(); renderView(); return; }
   if (d.btab) { buildTab = Number(d.btab); renderView(); return; }
+  if (d.atab) { armyTab = d.atab; renderView(); return; }
   if (d.ttab) { techTab = d.ttab; renderView(); return; }
   if (d.spellfilter) { spellFilter = d.spellfilter; try { localStorage.setItem('filterSpells', JSON.stringify(spellFilter)); } catch {} renderView(); return; }
   if (d.notifyClose) { game.closeNotification(); renderNotification(); renderTabs(); renderView(); return; }
@@ -1241,7 +1297,7 @@ document.addEventListener('click', (ev) => {
   }
   if (d.spyTarget) { game.updateSpy(d.spyTarget); closeSheet(); renderTop(); renderView(); return; }
   if (d.spyStart) { game.startSpy(); renderTop(); renderView(); return; }
-  if (d.detail) { const [kind, id] = d.detail.split(':'); openSheet(game.data.name({ res: 'res_', bui: 'bui_', tec: 'tec_', uni: 'uni_', ene: 'ene_', dip: 'dip_', pra: 'fai_', ach: 'not_' }[kind], id), detailRows(kind, id)); }
+  if (d.detail) { const [kind, id] = d.detail.split(':'); openSheet(game.data.name({ res: 'res_', bui: 'bui_', tec: 'tec_', uni: 'uni_', ene: 'ene_', dip: 'dip_', pra: 'fai_', ach: 'not_' }[kind], id), detailRows(kind, id), { kind, id }); }
 });
 // 手动采集：按住每秒 +1（原版桌面端 hover 每秒 +1 的移动端映射）
 document.addEventListener('pointerdown', (ev) => {
@@ -1259,7 +1315,7 @@ let lp = null;
 document.addEventListener('touchstart', (ev) => {
   const row = ev.target.closest('[data-detail]');
   if (!row) return;
-  lp = setTimeout(() => { const [k, id] = row.dataset.detail.split(':'); openSheet(game.data.name({ res: 'res_', bui: 'bui_', tec: 'tec_', uni: 'uni_', ene: 'ene_', dip: 'dip_', pra: 'fai_' }[k], id), detailRows(k, id)); lp = null; }, 450);
+  lp = setTimeout(() => { const [k, id] = row.dataset.detail.split(':'); openSheet(game.data.name({ res: 'res_', bui: 'bui_', tec: 'tec_', uni: 'uni_', ene: 'ene_', dip: 'dip_', pra: 'fai_' }[k], id), detailRows(k, id), { kind: k, id }); lp = null; }, 450);
 }, { passive: true });
 for (const e of ['touchend', 'touchmove', 'touchcancel']) document.addEventListener(e, () => { if (lp) { clearTimeout(lp); lp = null; } }, { passive: true });
 
@@ -1353,6 +1409,7 @@ function frame(now) {
     else game.tick(real * game.clock.scale);
   } catch (e) { err('tick', e); }
   try { renderTop(); renderNotification(); renderConfirm(); renderDifficulty(); renderToasts(); } catch (e) { err('overlay', e); }
+  try { if (now - (window.__sheetAt || 0) > 250) { window.__sheetAt = now; refreshSheet(); } } catch (e) { err('sheet', e); }
   // 转生面板：原版 LegacyStore 构造函数（main.js.src:52831）
   //   flag===2 → softReset2Confirm(3)；flagb===2 → toggleSoftReset("dip_"+boss, 0, false)
   try {

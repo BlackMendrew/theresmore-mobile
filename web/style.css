@@ -39,6 +39,11 @@ body{padding-top:calc(var(--safe-t));padding-bottom:calc(var(--tap) * 2 + var(--
 /* 展开/收起提示（放在卡片右上角，不参与点击判定：整块面板才是点击目标） */
 .res-toggle{position:absolute;top:10px;right:15px;font-size:10px;line-height:1;color:var(--dim);pointer-events:none}
 
+/* 断粮：食物为 0 时原版会掐停除食物外的所有产出（getTimerValue），这里给个视觉提示 */
+.res-strip.starving{border-color:#6b2f2f}
+.res-item.starve .v, .res-row.starve .v{color:var(--bad)}
+.res-item.starve .r, .res-row.starve .r{color:var(--bad)}
+
 /* 状态栏吸顶（难度/队列/祖先 + 设置齿轮），滚动时保持单手可达 */
 #statusbar{position:sticky;top:0;z-index:21;background:#1b1e22;border-bottom:1px solid var(--line);
   display:flex;align-items:center;gap:8px;padding:4px 10px 6px}
@@ -227,8 +232,10 @@ body.start-mode #view { padding: 8px 12px 40px; }
   font-weight:700;background:#3a3d42;color:#c9ccd1}
 /* [hidden] 必须压过 .tabbar button{display:flex}，否则不可用页签仍会显示 */
 .tabbar button[hidden]{display:none}
-/* 建造/研究页子页切换条 */
+/* 建造/研究/军队页子页切换条 */
 .subtabs{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 2px}
+/* 军队页子面板：只有当前子页显示（其余仍在 DOM 里，hidden 不占布局） */
+.apanel[hidden]{display:none}
 /* 市场按钮组：出售 10/100/1000 + 购买 10/100/1000 */
 .mkt-btns{display:flex;flex-wrap:wrap;gap:6px;flex:1 1 100%;margin-top:8px}
 .mkt-btns .btn{min-width:44px;min-height:40px}
