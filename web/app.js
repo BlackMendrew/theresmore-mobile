@@ -24,7 +24,25 @@ const fmt = (n) => {
       : NF.format(n);
 };
 const fmt2 = (n) => NF_TWO.format(Math.round(100 * Number(n)) / 100);
-window.__fmt = fmt; window.__fmt2 = fmt2;
+// 原版 zeroNumberFormat（main.js.src:64216）：无小数（缺口数量用它显示）
+const NF0 = new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 });
+// 原版 fU（main.js.src:6118-6142）：秒 → "12s" / "2m 23s" / "1h 5m" / "3d 4h"；≤0/NaN/∞ → ∞
+const fmtEta = (sec) => {
+  if (sec === Infinity || Number.isNaN(sec) || sec <= 0) return '∞';
+  if (sec < 60) return `${Math.ceil(sec)}s`;
+  if (sec < 3600) { const m = Math.floor(sec / 60), s = Math.ceil(sec % 60); return s > 0 ? `${m}m ${s}s` : `${m}m`; }
+  if (sec < 86400) { const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60); return m > 0 ? `${h}h ${m}m` : `${h}h`; }
+  const d = Math.floor(sec / 86400), h = Math.floor((sec % 86400) / 3600);
+  return h > 0 ? `${d}d ${h}h` : `${d}d`;
+};
+window.__fmt = fmt; window.__fmt2 = fmt2; window.__fmtEta = fmtEta;
+// 顶栏资源条的每秒速率：<10 留 2 位、10~99 留 1 位、≥100 取整（≥1000 走 fmt 的 K/M 口径）；0 就显示 0
+const fmtRate = (n) => {
+  const a = Math.abs(Number(n));
+  if (!Number.isFinite(a) || a < 0.005) return '0';
+  const body = a >= 1000 ? fmt(a) : a >= 100 ? String(Math.round(a)) : a >= 10 ? a.toFixed(1) : a.toFixed(2);
+  return (n > 0 ? '+' : '-') + body;
+};
 
 const resName = (id) => game.data.name('res_', id);
 // i18n 查表（对应原版 pe.v：缺 key 返回 "UNDEFINED_"+key，1:1 保留）
@@ -45,6 +63,8 @@ let buildTab = 1;          // 建造页子页：1 城市 / 2 定居点 / 3 深�
 let techTab = 'research';  // 研究页子页：research 待研究 / completed 已完成
 let queueOpen = false;
 let showDifficulty = false;   // 原版 MainStore.showDifficulty（难度选择面板，不可关闭）
+// 资源面板：收起=小字网格（名称+数量/上限），展开=逐行「名称/数量上限/速率」；状态记在 localStorage
+let resPanelOpen = (() => { try { return JSON.parse(localStorage.getItem('resPanelOpen')) === true; } catch { return false; } })();
 let game;
 let lastFrame = performance.now();
 let lastViewRender = 0;
@@ -135,11 +155,38 @@ function renderTopInner() {
   const order = ['food', 'wood', 'stone', 'research', 'gold', 'copper', 'iron', 'tools'];
   const visible = game.visibleResources().map((d) => d.id);
   const ids = [...order.filter((id) => visible.includes(id)), ...visible.filter((id) => !order.includes(id))];
-  $('#resstrip').innerHTML = ids.slice(0, 12).map((id) => {
-    const v = game.resourceValue(id), cap = game.capOf(id);
-    const cls = cap > 0 && v >= cap ? 'full' : cap > 0 && v < cap * 0.1 ? 'warn' : '';
-    return `<div class="chip ${cls}"><span class="n">${resName(id)}</span><span class="v">${fmt(v)}${cap > 0 ? `<span style="color:#9aa0a6;font-weight:400">/${fmt(cap)}</span>` : ''}</span></div>`;
-  }).join('');
+  // 全部已解锁资源放进"一块面板"：收起时小字显示 名称 + 数量/上限；点面板展开后逐行显示速率
+  const strip = $('#resstrip');
+  const stripKey = (resPanelOpen ? 'open|' : 'closed|') + ids.join(',');
+  if (strip.dataset.key !== stripKey) {   // 资源集合或形态变化时才重建骨架，避免每 250ms 整块 innerHTML
+    strip.dataset.key = stripKey;
+    strip.className = 'res-strip' + (resPanelOpen ? ' open' : '');
+    strip.innerHTML = ids.map(() => (resPanelOpen
+      ? '<div class="res-row"><span class="n"></span><span class="v"></span><span class="r"></span></div>'
+      : '<span class="res-item"><span class="n"></span><span class="v"></span></span>')).join('');
+    const tg = $('#restoggle');
+    if (tg) tg.textContent = resPanelOpen ? '▴' : '▾';
+  }
+  ids.forEach((id, i) => {
+    const el = strip.children[i];
+    if (!el) return;
+    const v = game.resourceValue(id), cap = game.capOf(id), rate = game.perSecond(id);
+    const cls = (resPanelOpen ? 'res-row' : 'res-item')
+      + (cap > 0 && v >= cap ? ' full' : cap > 0 && v < cap * 0.1 ? ' warn' : '');
+    if (el.className !== cls) el.className = cls;
+    const nEl = el.children[0], vEl = el.children[1];
+    const name = resName(id);
+    if (nEl.textContent !== name) nEl.textContent = name;
+    const vHtml = fmt(v) + (cap > 0 ? `<span class="cap">/${fmt(cap)}</span>` : '');
+    if (vEl.innerHTML !== vHtml) vEl.innerHTML = vHtml;
+    if (resPanelOpen) {
+      const rEl = el.children[2];
+      const rTxt = fmtRate(rate) + '/秒';
+      if (rEl.textContent !== rTxt) rEl.textContent = rTxt;
+      const rCls = 'r' + (rate > 0.005 ? ' up' : rate < -0.005 ? ' down' : '');
+      if (rEl.className !== rCls) rEl.className = rCls;
+    }
+  });
   const q = game.run.queue?.length || 0;
   const inc = game.attackInProgress;
   // 手动采集面板（原版：封建制度研究前常驻侧栏）
@@ -256,11 +303,12 @@ const viewBuildings = () => {
       const atCap = b.cap !== undefined && qty >= b.cap;
       // 原版建筑按钮上的角标就是数量（qty>0 且（未满上限 或 qty>1）时显示）
       const badge = qty > 0 && (!atCap || qty > 1) ? `<span class="pill">${qty}</span>` : '';
+      const qr = queueState(), queued = qr.ids.has(b.id);
+      const canQueue = queueReady() && !queued && !qr.full && !atCap;
       return `<div class="row tap" data-detail="bui:${b.id}">
         <div class="grow"><div class="t">${game.data.name('bui_', b.id)} ${badge}</div>
-        <div class="s">${(b.req || []).map(fmtReq).join('　') || '—'}</div></div>
-        <button class="btn btn-sm ${can ? 'btn-accent' : ''}" data-build="${b.id}">${game.data.name('bui_', b.id)}</button>
-        <button class="btn btn-sm" data-queue="building:${b.id}" aria-label="${game.data.name('', 'queue')}">＋</button>
+        <div class="s">${reqLine(b.req, game.reqgen.checkOwned('building', b.id))}</div></div>
+        <button class="btn btn-sm ${can ? 'btn-accent' : ''}" data-build="${b.id}" ${can || canQueue ? '' : 'disabled'}>${game.data.name('bui_', b.id)}</button>
       </div>`;
     }).join('')}</div>`;
   }).join('');
@@ -269,11 +317,12 @@ const viewBuildings = () => {
 /* ---------- 研究页（原版 TechsStore + 分包 455 的 ea 组件：研究 / 已完成 两个子页） ---------- */
 const techRow = (t, owned) => {
   const can = buildableTechs().some((x) => x.id === t.id);
+  const qr = queueState(), queued = qr.ids.has(t.id);
+  const canQueue = queueReady() && !owned && !t.confirm && !queued && !qr.full;
   return `<div class="row tap" data-detail="tec:${t.id}">
     <div class="grow"><div class="t">${game.data.name('tec_', t.id)}</div>
-    <div class="s">${(t.req || []).map(fmtReq).join('　') || '—'}</div></div>
-    <button class="btn btn-sm ${can && !owned ? 'btn-accent' : ''}" data-research="${t.id}">${game.data.name('tec_', t.id)}</button>
-    ${owned ? '' : `<button class="btn btn-sm" data-queue="tech:${t.id}" aria-label="${game.data.name('', 'queue')}">＋</button>`}
+    <div class="s">${reqLine(t.req, game.reqgen.checkOwned('tech', t.id))}</div></div>
+    <button class="btn btn-sm ${can && !owned ? 'btn-accent' : ''}" data-research="${t.id}" ${owned || can || canQueue ? '' : 'disabled'}>${game.data.name('tec_', t.id)}</button>
   </div>`;
 };
 const viewTechs = () => {
@@ -471,10 +520,13 @@ const viewPopulation = () => {
 const prayerRow = (p) => {
   const on = game.magic.activeSpell(p.id);
   const known = (game.run.prayers || []).some((x) => x.id === p.id && x.value > 0);
+  const isSpell = p.type === 'spell';
+  const canBuy = !!game.reqgen.checkReq('prayer', p.id, p);   // 祈祷：资源/前置是否够（不够则引擎自动入队）
+  const disabled = !isSpell && !known && !canBuy && !(queueReady() && !queueState().full);
   return `<div class="row tap" data-detail="pra:${p.id}">
     <div class="grow"><div class="t">${game.data.name('fai_', p.id)}</div>
-    <div class="s">${(p.req || []).map(fmtReq).join('、')}</div></div>
-    <button class="btn btn-sm ${on ? 'btn-primary' : ''}" data-prayer="${p.id}">${game.data.name('', on || known ? 'fai_spell_cancel' : 'fai_spell_accept')}</button>
+    <div class="s">${reqLine(p.req, game.reqgen.checkOwned('prayer', p.id)).replace(/　/g, '、')}</div></div>
+    <button class="btn btn-sm ${on ? 'btn-primary' : ''}" data-prayer="${p.id}" ${disabled ? 'disabled' : ''}>${game.data.name('', on || known ? 'fai_spell_cancel' : 'fai_spell_accept')}</button>
   </div>`;
 };
 let spellFilter = (() => { try { const v = JSON.parse(localStorage.getItem('filterSpells')); return v || 'all'; } catch { return 'all'; } })();   // 原版 MagicStore.filterSpells（默认 "all"）
@@ -552,7 +604,7 @@ const viewDiplomacy = () => {
 const marketBlock = () => {
   if (!game.market || !showMarket()) {
     return `<div class="sec-title">${game.data.name('bui_', 'marketplace')}</div>
-      <div class="card"><div class="row"><div class="grow"><div class="s">${(game.data.byId.building.get('marketplace')?.req || []).map(fmtReq).join('　')}</div></div></div></div>`;
+      <div class="card"><div class="row"><div class="grow"><div class="s">${reqLine(game.data.byId.building.get('marketplace')?.req)}</div></div></div></div>`;
   }
   const rows = game.market.stocks.map((st) => {
     const i = game.market.idx(st.id);
@@ -686,6 +738,44 @@ const fmtGen = (g) => {
   return `${nmGen(g)} ${amount}`.trim();
 };
 const fmtReq = (r) => `${nm(r.type, r.id)} ${r.value}`.trim();
+/* 需求项渲染：满足=绿、不满足=红。
+   口径与引擎 checkReq 一致：req.multi 要按"已拥有数量"膨胀（重复建造的成本递增），资源类 floor 后比较。
+   （原版把需求放在 tooltip 里：红底 + "-缺额"；复刻版直接标在行内，所以顺手标成绿/红） */
+const reqChip = (r, ownedCount = 0, withEta = false) => {
+  const need = Math.floor(r.multi && ownedCount > 0 ? r.value * r.multi ** ownedCount : r.value);
+  const ok = !!game.reqgen.checkOwned(r.type, r.id, need);
+  let extra = '';
+  if (withEta && !ok && r.type === 'resource') {
+    // 缺口 = 需求 − 持有；再按产量估"还要多久"（原版 63062-63090）：
+    //   资源上限不足以装下需求、或当前已顶到上限 → ∞；产量为 0 → ∞；否则 deficit / 每秒产量
+    const have = Math.floor(game.resourceValue(r.id));
+    const d = need - have;
+    const cap = game.capOf(r.id), rate = game.perSecond(r.id);
+    const SPECIAL = new Set(['legacy', 'fame', 'relic', 'coin', 'tome_wisdom', 'luck', 'gem', 'titan_gift', 'light']);
+    let eta = '';
+    if (!SPECIAL.has(r.id)) {
+      const stuck = (cap > 0 && cap < need) || (cap > 0 && have >= cap);
+      eta = stuck || !(rate > 0) ? '∞' : fmtEta(d / rate);
+    }
+    // 文案口径照原版 reqTooltipData：`[-缺口]` + 时长（原版在时长前还有个图标，这里直接用文字）
+    extra = `<span class="req-eta"> [-${NF0.format(d)}]${eta ? ` ${eta}` : ''}</span>`;
+  }
+  return `<span class="req ${ok ? 'ok' : 'no'}">${nm(r.type, r.id)} ${need}${extra}</span>`;
+};
+const reqLine = (reqs, ownedCount = 0, withEta = false, sep = '　') => (reqs || []).length
+  ? reqs.map((r) => reqChip(r, ownedCount, withEta)).join(sep) : '—';
+/* 队列状态：能不能入队只看**空槽位**（原版 QueueStore.addQueue 的 freeSlots 判定 57123；
+   queue_slot 本身来自主管科技/队列大师的 gen，所以没解锁时槽位为 0，自然入不了队）。
+   注意：原版**没有**单独的"加入队列"按钮——买不起时点建造/研究按钮本身就等于入队（addBuilding/addTech
+   失败 → addQueue，57158/63964/49990）。所以这里只保留一个动作按钮：
+     · 买得起 → 直接建造/研究
+     · 买不起但队列可用 → 点击后自动入队并弹出队列面板（doBuild/doResearch）
+     · 队列不可用（无主管科技/队列大师，或没有空槽位）→ 按钮禁用，避免"点了没反应" */
+const queueReady = () => game.queue.slots > 0;
+const queueState = () => {
+  const q = game.run.queue || [];
+  return { used: q.length, full: q.length >= game.queue.slots, ids: new Set(q.map((x) => x.id)) };
+};
 // 原版成就画廊没有搜索框（无任何 <input>），这里只保留"我的/一览 + 只显示未获得"
 const viewAchievements = () => {
   const groups = game.data.achievements || [];
@@ -958,8 +1048,9 @@ function confirmSoftReset() {
 /* ==================== 详情面板 ==================== */
 function detailRows(kind, id) {
   if (kind === 'res') return [['', `${fmt(game.resourceValue(id))} / ${fmt(game.capOf(id))}`], ['', `${game.perSecond(id).toFixed(2)}/秒`]];
-  if (kind === 'bui') { const b = game.data.byId.building.get(id); return [['', game.data.name('bui_', b.id)], ['', (b.req || []).map(fmtReq).join('、')], ['', (b.gen || []).map(fmtGen).join('、')]]; }
-  if (kind === 'tec') { const t = game.data.byId.tech.get(id); return [['', game.data.name('tec_', t.id)], ['', (t.req || []).map(fmtReq).join('、')], ['', (t.gen || []).map(fmtGen).join('、')]]; }
+  if (kind === 'bui') { const b = game.data.byId.building.get(id); return [['', game.data.name('bui_', b.id)], ['', reqLine(b.req, game.reqgen.checkOwned('building', id), true, '、')], ['', (b.gen || []).map(fmtGen).join('、')]]; }
+  if (kind === 'tec') { const t = game.data.byId.tech.get(id); return [['', game.data.name('tec_', t.id)], ['', reqLine(t.req, game.reqgen.checkOwned('tech', id), true, '、')], ['', (t.gen || []).map(fmtGen).join('、')]]; }
+  if (kind === 'pra') { const p = game.data.byId.prayer.get(id); return [['', game.data.name('fai_', p.id)], ['', reqLine(p.req, game.reqgen.checkOwned('prayer', id), true, '、')], ['', (p.gen || []).map(fmtGen).join('、')]]; }
   if (kind === 'uni') { const u = game.data.byId.unit.get(id); return [['', `${game.data.name('', 'attack_abbr')} ${u.attack}　${game.data.name('', 'defense_abbr')} ${u.defense}`], ['', u.category >= 1 && u.category <= 4 ? game.data.name('', 'uni_cat_' + u.category) : ''], ['', [u.splash ? game.data.name('', 'splash') + ' ' + u.splash : '', u.trample ? game.data.name('', 'trample') + ' ' + u.trample : ''].filter(Boolean).join(' ')], ['', (u.reqAttack || []).map(fmtReq).join('、')]]; }
   if (kind === 'ene') { const e = game.data.byId.expedition.get(id); return [[game.data.name('ene_', id)], ['', (e.army || []).map((a) => `${game.data.name('uni_', a.id)}×${a.value}`).join('、')], ['', (e.gen || []).map(fmtGen).join('、')]]; }
   if (kind === 'ach') { const a = game.data.byId.achievement.get(id); return [['', (a?.gen || []).map(fmtGen).join('、')], ['', (a?.req || []).map(fmtReq).join('、')], [game.data.name('', 'unlocked'), (() => { const o = (game.save.ach || []).find((x) => (x.id || x) === id); return o?.date ? new Date(o.date).toLocaleString('zh-CN') : ''; })()]]; }
@@ -1091,6 +1182,12 @@ document.addEventListener('click', (ev) => {
   if (d.gather) { game.manualGather(d.gather); renderTop(true); renderView(); return; }
   if (d.speed) { game.clock.scale = Number(d.speed); renderTop(); renderView(); return; }
   if (d.achTab) { game._achTab = d.achTab; renderView(); return; }
+  if (d.act === 'res-panel') {   // 点顶部整块资源面板：展开/收起（状态记忆在 localStorage）
+    resPanelOpen = !resPanelOpen;
+    try { localStorage.setItem('resPanelOpen', JSON.stringify(resPanelOpen)); } catch {}
+    renderTop(true);
+    return;
+  }
   if (d.act === 'toggle-missing') { game._showMissingAch = !game._showMissingAch; renderView(); return; }
   if (d.act === 'combat-reports') { openSheet(game.data.name('', 'combat_reports'), (game.save.combatReports || []).slice(0, 5).map((r) => [game.data.name('dip_', r.enemyId) || game.data.name('ene_', r.enemyId), `${r.victory ? game.data.name('', 'victory') : game.data.name('', 'defeat')}　${game.data.name('', 'rounds') || ''} ${r.rounds ?? ''}`])); return; }
   if (d.act === 'export') { const s = game.serialize(); navigator.clipboard?.writeText(s); return; }
@@ -1139,7 +1236,7 @@ document.addEventListener('click', (ev) => {
   }
   if (d.spyTarget) { game.updateSpy(d.spyTarget); closeSheet(); renderTop(); renderView(); return; }
   if (d.spyStart) { game.startSpy(); renderTop(); renderView(); return; }
-  if (d.detail) { const [kind, id] = d.detail.split(':'); openSheet(game.data.name({ res: 'res_', bui: 'bui_', tec: 'tec_', uni: 'uni_', ene: 'ene_', dip: 'dip_', ach: 'not_' }[kind], id), detailRows(kind, id)); }
+  if (d.detail) { const [kind, id] = d.detail.split(':'); openSheet(game.data.name({ res: 'res_', bui: 'bui_', tec: 'tec_', uni: 'uni_', ene: 'ene_', dip: 'dip_', pra: 'fai_', ach: 'not_' }[kind], id), detailRows(kind, id)); }
 });
 // 手动采集：按住每秒 +1（原版桌面端 hover 每秒 +1 的移动端映射）
 document.addEventListener('pointerdown', (ev) => {
@@ -1157,7 +1254,7 @@ let lp = null;
 document.addEventListener('touchstart', (ev) => {
   const row = ev.target.closest('[data-detail]');
   if (!row) return;
-  lp = setTimeout(() => { const [k, id] = row.dataset.detail.split(':'); openSheet(game.data.name({ res: 'res_', bui: 'bui_', tec: 'tec_', uni: 'uni_', ene: 'ene_', dip: 'dip_' }[k], id), detailRows(k, id)); lp = null; }, 450);
+  lp = setTimeout(() => { const [k, id] = row.dataset.detail.split(':'); openSheet(game.data.name({ res: 'res_', bui: 'bui_', tec: 'tec_', uni: 'uni_', ene: 'ene_', dip: 'dip_', pra: 'fai_' }[k], id), detailRows(k, id)); lp = null; }, 450);
 }, { passive: true });
 for (const e of ['touchend', 'touchmove', 'touchcancel']) document.addEventListener(e, () => { if (lp) { clearTimeout(lp); lp = null; } }, { passive: true });
 
@@ -1166,7 +1263,31 @@ for (const e of ['touchend', 'touchmove', 'touchcancel']) document.addEventListe
    frame() 里做脏检查：签名变化才重画，且 350ms 节流（≈3Hz），不每帧重画。 */
 const lastRes = new Map();
 function commitRes() { for (const row of game.run.resources || []) lastRes.set(row.id, row.value); }
-function viewSig() {
+/* 「买得起」指纹：资源只会随时间上涨，而 viewSig 以前只记录资源**骤降**，
+   于是"资源够了但建造按钮还禁用"要等到别的状态变化才刷新（用户实测："过一下又可以点击"）。
+   这里按当前页签算一份"可买集合"，它一变就重画；250ms 缓存，避免每帧都做全表 checkReq。 */
+let _affordAt = 0, _affordKey = '', _affordSig = '';
+function affordSig(now) {
+  const key = `${tab}|${buildTab}|${techTab}`;
+  if (key === _affordKey && now - _affordAt < 250) return _affordSig;
+  let sig = '';
+  if (tab === 'build') {
+    const a = buildableBuildings(), c = buildableCapBuildings();
+    sig = 'B' + a.length + ':' + c.length + ':' + a.map((x) => x.id).join(',');
+  } else if (tab === 'tech') {
+    const a = buildableTechs();
+    sig = 'T' + a.length + ':' + a.map((x) => x.id).join(',');
+  } else if (tab === 'magic') {
+    sig = 'M' + visiblePrayers().filter((x) => game.reqgen.checkReq('prayer', x.id, x)).length;
+  } else if (tab === 'army') {
+    sig = 'A' + visibleArmy().filter((x) => game.reqgen.checkReq('army', x.id, x)).length;
+  } else if (tab === 'dip') {
+    sig = 'D' + visibleDiplomacy().filter((x) => game.reqgen.checkReq('diplomacy', x.id, x)).length;
+  }
+  _affordAt = now; _affordKey = key; _affordSig = sig;
+  return sig;
+}
+function viewSig(now = performance.now()) {
   const r = game.run;
   // 资源"骤降"（非生产增长）也要触发重画：防守战失败清零、被消耗等
   // 注意：这里只读快照，快照只在真正重画后提交（commitRes），否则骤降信号会被自己吞掉
@@ -1182,7 +1303,8 @@ function viewSig() {
     game.attackInProgress ? Math.round(game.attackInProgress.attack) : '',
     Math.floor(r.donation || 0), (game.save.ach || []).length, showMarket(), showMagic(),
     game.exploreInProgress, game.spyInProgress, game.attackRunInProgress, r.spy,
-    (game.save.leg || []).length, tab, buildTab, techTab].join('|');
+    (game.save.leg || []).length, tab, buildTab, techTab,
+    Math.floor(game.resourceValue('queue_slot') || 0), affordSig(now)].join('|');
 }
 let lastSig = null;
 
@@ -1208,7 +1330,7 @@ function frame(now) {
   } catch (e) { err('softreset', e); }
   // 低频视图刷新：离散状态签名变化 + 350ms 节流（≈3Hz），避免每帧重画/丢输入焦点
   try {
-    const sig = viewSig();
+    const sig = viewSig(now);
     if (sig !== lastSig) {
       const ae = document.activeElement;
       const typing = ae && ae.tagName === 'INPUT' && $('#view').contains(ae);

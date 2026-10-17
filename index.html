@@ -12,11 +12,14 @@
 </head>
 <body>
   <header id="topbar">
-    <div id="resstrip" class="res-strip" aria-label="资源"></div>
-    <div class="status-row"><div id="statusline" class="status-line"></div>
-      <button id="gear" class="gear" data-tab="settings" aria-label="设置"></button></div>
-    <div id="gatherbar" class="gather-bar" hidden></div>
+    <div id="resstrip" class="res-strip" data-act="res-panel" aria-label="资源"></div>
+    <span id="restoggle" class="res-toggle" data-act="res-panel" aria-hidden="true">▾</span>
   </header>
+  <div id="statusbar" class="status-row">
+    <div id="statusline" class="status-line"></div>
+    <button id="gear" class="gear" data-tab="settings" aria-label="设置"></button>
+  </div>
+  <div id="gatherbar" class="gather-bar" hidden></div>
 
   <main id="view" class="view"></main>
 

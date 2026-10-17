@@ -10,17 +10,39 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--txt);
   overscroll-behavior:none;-webkit-user-select:none;user-select:none;touch-action:manipulation}
 body{padding-top:calc(var(--safe-t));padding-bottom:calc(var(--tap) * 2 + var(--safe-b))}
 
-/* 顶部资源条 */
-#topbar{position:sticky;top:0;z-index:20;background:linear-gradient(#1b1e22,#191c20);
+/* 顶部资源面板：**一整块卡片**（不是每个资源一个格子），整块可点
+   · 收起（默认）：小字内联文本「名称 数量/上限」，一排排满自动换行 —— 最省高度
+   · 展开（点面板）：每行「名称 / 数量 上限 / 每秒速率」，再点一次收起
+   资源最多 19 种；面板随页面滚走，只有下面的 #statusbar 吸顶。 */
+#topbar{position:relative;z-index:20;background:linear-gradient(#1b1e22,#191c20);
   border-bottom:1px solid var(--line);padding-top:var(--safe-t)}
-.res-strip{display:flex;gap:8px;overflow-x:auto;padding:8px 10px;scrollbar-width:none}
-.res-strip::-webkit-scrollbar{display:none}
-.chip{flex:0 0 auto;background:var(--panel);border:1px solid var(--line);border-radius:10px;
-  padding:6px 10px;min-width:96px}
-.chip .n{font-size:12px;color:var(--dim);display:block;white-space:nowrap}
-.chip .v{font-size:15px;font-weight:600;white-space:nowrap}
-.chip.warn .v{color:var(--warn)} .chip.full .v{color:var(--accent)}
-.status-line{display:flex;gap:10px;padding:0 12px 8px;font-size:12px;color:var(--dim);flex-wrap:wrap}
+.res-strip{display:block;background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  margin:5px 8px;padding:4px 20px 4px 7px;cursor:pointer}
+.res-strip:active{background:#23262a}
+/* 收起态：纯内联文本，无独立格子/边框 */
+.res-item{display:inline-block;margin:0 9px 0 0;white-space:nowrap;font-size:11px;line-height:1.5;vertical-align:baseline}
+.res-item .n{color:var(--dim);font-size:10px}
+.res-item .v{font-weight:600;margin-left:3px}
+.res-item .cap{color:var(--dim);font-weight:400;font-size:10px}
+.res-item.warn .v{color:var(--warn)} .res-item.full .v{color:var(--accent)}
+/* 展开态：同一块卡片内逐行列出（名称/数量上限/速率） */
+.res-strip.open{padding-right:7px}
+.res-row{display:grid;grid-template-columns:1fr auto 68px;gap:10px;align-items:baseline;
+  padding:3px 0;border-bottom:1px solid var(--line);font-size:12px}
+.res-row:last-child{border-bottom:none}
+.res-row .n{color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.res-row .v{font-weight:600;white-space:nowrap}
+.res-row .cap{font-size:10.5px;font-weight:400;color:var(--dim)}
+.res-row .r{text-align:right;color:#7f8a93;white-space:nowrap}
+.res-row .r.up{color:var(--accent)} .res-row .r.down{color:var(--bad)}
+.res-row.warn .v{color:var(--warn)} .res-row.full .v{color:var(--accent)}
+/* 展开/收起提示（放在卡片右上角，不参与点击判定：整块面板才是点击目标） */
+.res-toggle{position:absolute;top:10px;right:15px;font-size:10px;line-height:1;color:var(--dim);pointer-events:none}
+
+/* 状态栏吸顶（难度/队列/祖先 + 设置齿轮），滚动时保持单手可达 */
+#statusbar{position:sticky;top:0;z-index:21;background:#1b1e22;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:8px;padding:4px 10px 6px}
+.status-line{display:flex;gap:10px;padding:0;font-size:12px;color:var(--dim);flex-wrap:wrap;flex:1;min-width:0}
 
 /* 主体 */
 .view{padding:10px 10px 24px;max-width:820px;margin:0 auto}
@@ -30,7 +52,12 @@ body{padding-top:calc(var(--safe-t));padding-bottom:calc(var(--tap) * 2 + var(--
 .row:last-child{border-bottom:none}
 .row .grow{flex:1;min-width:0}
 .row .t{font-size:15px;font-weight:600}
-.row .s{font-size:12.5px;color:var(--dim);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* 次要信息不再用省略号截断：手机上没人会去横向滚动，被"..."吃掉就等于看不到
+   （实测建造/研究/成就等页面共 95 处被截断，改成换行后 0 处） */
+.row .s{font-size:12.5px;color:var(--dim);margin-top:2px;overflow-wrap:anywhere}
+/* 需求项：满足=绿、不满足=红（原版在 tooltip 里用红底 + "-缺额"，复刻版直接标在行内） */
+.req.ok{color:var(--accent)}
+.req.no{color:var(--bad)}
 .row .r{text-align:right;font-size:12.5px;color:var(--dim);flex:0 0 auto}
 .row.tap:active{background:var(--panel2)}
 .btn{min-height:44px;min-width:44px;padding:8px 14px;border-radius:10px;border:1px solid var(--line);
@@ -83,8 +110,7 @@ body{padding-top:calc(var(--safe-t));padding-bottom:calc(var(--tap) * 2 + var(--
 /* 顶栏齿轮 + 采集条（原版：设置在顶栏、采集面板常驻）
    注意：原版 header 在桌面端由外层滚动容器固定住（实测 scrollTo(0,400) 后 header.top 仍为 0），
    移动端这里用 sticky 达到同一效果，不要再用 position:relative 覆盖。 */
-.status-row{display:flex;align-items:center;gap:8px;padding:0 10px 6px}
-.status-row .status-line{padding:0;flex:1}
+.status-row .status-line{padding:0;flex:1;min-width:0}
 .gear{flex:0 0 auto;min-height:40px;padding:4px 12px;font-size:13px;
   background:var(--panel2);border:1px solid var(--line);border-radius:8px;color:var(--dim)}
 .gather-bar{display:flex;gap:8px;padding:0 10px 8px;flex-wrap:wrap}
@@ -98,7 +124,7 @@ body{padding-top:calc(var(--safe-t));padding-bottom:calc(var(--tap) * 2 + var(--
 @keyframes btnprog{from{transform:translateX(-100%)}to{transform:translateX(0)}}
 
 /* ---------- 开局"选择祖先"整屏（对应原版 runstart 界面） ---------- */
-body.start-mode #topbar, body.start-mode #tabbar { display: none; }
+body.start-mode #topbar, body.start-mode #statusbar, body.start-mode #gatherbar, body.start-mode #tabbar { display: none; }
 body.start-mode #view { padding: 8px 12px 40px; }
 .start-screen { max-width: 620px; margin: 0 auto; }
 .start-title { font-size: 34px; font-weight: 800; text-align: center; margin: 18px 0 6px;
