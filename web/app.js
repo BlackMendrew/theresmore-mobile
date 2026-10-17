@@ -217,7 +217,10 @@ function renderTopInner() {
   // 手动采集面板（原版：封建制度研究前常驻侧栏）
   const showManual = !game.reqgen.checkOwned('tech', 'feudalism', 1);
   $('#gatherbar').hidden = !showManual;
-  if (showManual) $('#gatherbar').innerHTML = ['food', 'wood', 'stone'].map((id) => `<button class="btn btn-sm btn-primary" data-gather="${id}">${resName(id)}</button>`).join('');
+  if (showManual) {
+    const gh = ['food', 'wood', 'stone'].map((id) => `<button class="btn btn-sm btn-primary" data-gather="${id}">${resName(id)}</button>`).join('');
+    if ($('#gatherbar').innerHTML !== gh) $('#gatherbar').innerHTML = gh;
+  }
   const gear = $('#gear'); if (gear) gear.textContent = game.data.name('', 'settings');
   // 祖先名 + 配色（原版 header 的 .text-ancestor 元素 + _updateAncestorColor 写的 --ancestor-color）
   const anc = game.run.ancestors;
@@ -230,10 +233,11 @@ function renderTopInner() {
   } else {
     document.documentElement.style.setProperty('--ancestor-color', '#9aa0a6');
   }
-  $('#statusline').innerHTML = ancChip
+  const slHtml = ancChip
     + `<span>${game.data.name('', 'difficulty')}：${game.data.name('', DIFF[game.run.dfc] ?? 'difficulty_0')}</span>`
     + `<span>${game.data.name('', 'queue')}：${q}</span>`
     + (inc ? `<span style="color:#e05252">${game.data.name('dip_', inc.id)} ${inc.attack.toFixed(0)}%</span>` : '');
+  if ($('#statusline').innerHTML !== slHtml) $('#statusline').innerHTML = slHtml;
 }
 
 /* ==================== 渲染：视图 ==================== */
@@ -243,10 +247,10 @@ function renderView() {
   const start = needAncestor();
   document.body.classList.toggle('start-mode', start);
   if (start) {
-    try { v.innerHTML = renderStart(); } catch (e) { (window.__viewErrs ||= []).push('start: ' + e.message); }
+    try { const html = renderStart(); if (_viewHtmlSig !== html) { _viewHtmlSig = html; v.innerHTML = html; } } catch (e) { (window.__viewErrs ||= []).push('start: ' + e.message); }
     return;
   }
-  try { renderViewInner(v); } catch (e) { (window.__viewErrs ||= []).push(tab + ': ' + e.message); v.innerHTML = ''; }
+  try { renderViewInner(v); } catch (e) { (window.__viewErrs ||= []).push(tab + ': ' + e.message); v.innerHTML = ''; _viewHtmlSig = ''; }
 }
 function renderViewInner(v) {
   let body;
@@ -260,7 +264,10 @@ function renderViewInner(v) {
   else if (tab === 'ach') body = viewAchievements();
   else body = viewMore();
   // 原版移动端布局顺序：队列组件 order-1（主区之上）→ 主区 order-2 → 日志面板 order-3（主区之下）
-  v.innerHTML = (tab === 'ach' ? '' : queueWidget()) + body + logBlock();
+  const html = (tab === 'ach' ? '' : queueWidget()) + body + logBlock();
+  // 内容没变就别动 DOM（否则手指下的节点会被换掉 → 移动端丢点击）。
+  // 比较"上次生成的 HTML"而不是 innerHTML：getter 会规范化布尔属性/实体，直接比永远不等。
+  if (_viewHtmlSig !== html) { _viewHtmlSig = html; v.innerHTML = html; }
 }
 
 /* ---------- 队列组件（原版 QueueStore 侧栏 + 分包 51 的侧滑面板） ---------- */
@@ -333,7 +340,7 @@ const viewBuildings = () => {
       return `<div class="row tap" data-detail="bui:${b.id}">
         <div class="grow"><div class="t">${game.data.name('bui_', b.id)} ${badge}</div>
         <div class="s">${reqLine(b.req, game.reqgen.checkOwned('building', b.id))}</div></div>
-        <button class="btn btn-sm ${can ? 'btn-accent' : ''}" data-build="${b.id}" ${can || canQueue ? '' : 'disabled'}>${game.data.name('bui_', b.id)}</button>
+        <button class="btn btn-sm ${can ? 'btn-accent' : ''}" data-build="${b.id}">${game.data.name('bui_', b.id)}</button>
       </div>`;
     }).join('')}</div>`;
   }).join('');
@@ -347,7 +354,7 @@ const techRow = (t, owned) => {
   return `<div class="row tap" data-detail="tec:${t.id}">
     <div class="grow"><div class="t">${game.data.name('tec_', t.id)}</div>
     <div class="s">${reqLine(t.req, game.reqgen.checkOwned('tech', t.id))}</div></div>
-    <button class="btn btn-sm ${can && !owned ? 'btn-accent' : ''}" data-research="${t.id}" ${owned || can || canQueue ? '' : 'disabled'}>${game.data.name('tec_', t.id)}</button>
+    <button class="btn btn-sm ${can && !owned ? 'btn-accent' : ''}" data-research="${t.id}">${game.data.name('tec_', t.id)}</button>
   </div>`;
 };
 const viewTechs = () => {
@@ -887,6 +894,7 @@ const viewAchievements = () => {
 };
 
 /* ---------- 标签栏（原版显示条件 + 角标，main.js.src:71463） ---------- */
+let _tabsHtmlSig = '', _viewHtmlSig = '';
 function renderTabs() {
   const avail = {
     build: true,
@@ -900,12 +908,16 @@ function renderTabs() {
   // 当前页签不再可用时回落到建造（原版由 HeadlessUI 的 selectedIndex 兜底）
   // 只对 7 个主导航页签生效：settings/ach 不在 avail 表里，不能把它们重置掉
   if (avail[tab] === false) tab = 'build';
-  $('#tabbar').innerHTML = TABS.map((t) => {
+  const tabsHtml = TABS.map((t) => {
     const on = tab === t.id;
     const badge = t.badge ? t.badge() : 0;
     // 不可用页签保留 DOM（自动化脚本仍能按 data-tab 选中），但界面上与原版一致地隐藏
     return `<button role="tab" data-tab="${t.id}" class="${on ? 'on' : ''}" ${avail[t.id] ? '' : 'hidden'}>${game.data.name('', t.k)}${badge > 0 ? `<span class="tabbadge">${badge}</span>` : ''}</button>`;
   }).join('');
+  // 只在内容真的变了才写 DOM：整块 innerHTML 替换会让手指下的节点消失（移动端点击会丢），
+  // 也会把没必要的重排/重绘全做一遍。内容没变时保持节点原样（React 也是一样的思路）。
+  const el = $('#tabbar');
+  if (_tabsHtmlSig !== tabsHtml) { _tabsHtmlSig = tabsHtml; el.innerHTML = tabsHtml; }
 }
 
 /* ==================== 覆盖层 ==================== */
@@ -1126,14 +1138,31 @@ function addToQueue(cat, id) {
   if (ok) openQueue();
   return ok;
 }
+/* 点不动时的反馈：不发明文案，直接"闪一下"——行抖一下 + 资源面板闪一下，
+   让玩家知道"这次点击被收到了，只是资源/前置不够"（禁用按钮会让点击彻底消失，反而像卡住）。 */
+function flashDenied(sel) {
+  try {
+    const row = sel && document.querySelector(sel)?.closest('.row');
+    if (row) { row.classList.remove('flash-no'); void row.offsetWidth; row.classList.add('flash-no'); setTimeout(() => row.classList.remove('flash-no'), 800); }
+    const strip = $('#resstrip');
+    if (strip) { strip.classList.remove('flash'); void strip.offsetWidth; strip.classList.add('flash'); setTimeout(() => strip.classList.remove('flash'), 800); }
+  } catch {}
+}
 function doBuild(id) {
   const ok = game.build(id);
-  if (!ok) addToQueue('building', id);   // 原版：资源/前置不足时静默入队 renderTop(true); renderView();
+  if (!ok) {
+    const queued = addToQueue('building', id);   // 原版：资源/前置不足时静默入队（能入队就弹队列面板）
+    if (!queued) flashDenied(`[data-build="${id}"]`);
+  }
   return ok;
 }
 function doResearch(id) {
   const ok = game.research(id);
-  if (!ok) addToQueue('tech', id); renderTop(true); renderView();
+  if (!ok) {
+    const queued = addToQueue('tech', id);
+    if (!queued) flashDenied(`[data-research="${id}"]`);
+  }
+  renderTop(true); renderView();
   return ok;
 }
 // 手动采集（原版桌面端 hover 每秒 +1；移动端映射为按住每秒 +1，单击仍 +1）
@@ -1310,9 +1339,18 @@ for (const e of ['pointerup', 'pointercancel', 'pointerleave']) {
 }
 document.addEventListener('contextmenu', (ev) => { if (ev.target.closest && ev.target.closest('[data-gather]')) ev.preventDefault(); });
 
-/* 长按查看详情（触屏无 hover） */
+/* 触摸状态：手指按住（+ 抬手后 350ms）不重画视图 —— 避免把手指下的节点换掉吞掉点击 */
+let _touchUntil = 0;
+const touchActive = () => performance.now() < _touchUntil;
+document.addEventListener('touchstart', () => { _touchUntil = performance.now() + 60000; }, { passive: true, capture: true });
+for (const e of ['touchend', 'touchcancel']) {
+  document.addEventListener(e, () => { _touchUntil = performance.now() + 350; }, { passive: true, capture: true });
+}
+
+/* 长按查看详情（触屏无 hover）；按在按钮上时不算长按，否则"慢一点的点击"会弹出详情面板 */
 let lp = null;
 document.addEventListener('touchstart', (ev) => {
+  if (ev.target.closest && ev.target.closest('button,[data-act],[data-tab],[data-atab],[data-btab],[data-ttab],a,input,select')) return;
   const row = ev.target.closest('[data-detail]');
   if (!row) return;
   lp = setTimeout(() => { const [k, id] = row.dataset.detail.split(':'); openSheet(game.data.name({ res: 'res_', bui: 'bui_', tec: 'tec_', uni: 'uni_', ene: 'ene_', dip: 'dip_', pra: 'fai_' }[k], id), detailRows(k, id), { kind: k, id }); lp = null; }, 450);
@@ -1430,7 +1468,8 @@ function frame(now) {
       const ae = document.activeElement;
       const typing = ae && ae.tagName === 'INPUT' && $('#view').contains(ae);
       // 节流：只有真正重画时才提交签名与资源快照，否则这次变化会被永久吞掉
-      if (!typing && now - lastViewRender > 350) {
+      // 手指按住期间（含抬手后 350ms）一律不重画：移动端"手指下的节点被换掉"会直接吞掉这次点击
+      if (!typing && !touchActive() && now - lastViewRender > 350) {
         lastSig = sig; commitRes();
         renderTabs(); renderView(); renderQueuePanel();
       }

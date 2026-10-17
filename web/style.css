@@ -39,6 +39,14 @@ body{padding-top:calc(var(--safe-t));padding-bottom:calc(var(--tap) * 2 + var(--
 /* 展开/收起提示（放在卡片右上角，不参与点击判定：整块面板才是点击目标） */
 .res-toggle{position:absolute;top:10px;right:15px;font-size:10px;line-height:1;color:var(--dim);pointer-events:none}
 
+/* 点不动时的反馈：行抖一下 + 资源面板闪一下（不给禁用按钮，否则点击完全没有反馈） */
+@keyframes shakeX{0%,100%{transform:translateX(0)}20%{transform:translateX(-4px)}40%{transform:translateX(4px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
+.row.flash-no{animation:shakeX .45s ease-in-out}
+@keyframes panelFlash{0%,100%{border-color:var(--line)}50%{border-color:var(--warn)}}
+.res-strip.flash{animation:panelFlash .5s ease-in-out}
+/* 按钮按下立刻有反馈（移动端 click 天生比 touchstart 慢） */
+.btn:active,.tabbar button:active{transition:none}
+
 /* 断粮：食物为 0 时原版会掐停除食物外的所有产出（getTimerValue），这里给个视觉提示 */
 .res-strip.starving{border-color:#6b2f2f}
 .res-item.starve .v, .res-row.starve .v{color:var(--bad)}
