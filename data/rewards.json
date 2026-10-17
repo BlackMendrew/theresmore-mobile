@@ -1,0 +1,310 @@
+[
+ {
+  "id": "reward_prod1",
+  "found": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20
+  ],
+  "time": 300,
+  "gen": [
+   {
+    "type": "resource",
+    "id": "food",
+    "value": 150,
+    "perc": true
+   },
+   {
+    "type": "resource",
+    "id": "wood",
+    "value": 150,
+    "perc": true
+   },
+   {
+    "type": "resource",
+    "id": "stone",
+    "value": 150,
+    "perc": true
+   }
+  ]
+ },
+ {
+  "id": "reward_prod2",
+  "found": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20
+  ],
+  "time": 300,
+  "gen": [
+   {
+    "type": "resource",
+    "id": "gold",
+    "value": 300,
+    "perc": true
+   }
+  ]
+ },
+ {
+  "id": "reward_prod3",
+  "found": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20
+  ],
+  "time": 300,
+  "gen": [
+   {
+    "type": "resource",
+    "id": "research",
+    "value": 300,
+    "perc": true
+   }
+  ]
+ },
+ {
+  "id": "reward_prod4",
+  "found": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20
+  ],
+  "time": 300,
+  "req": [
+   {
+    "type": "tech",
+    "id": "bronze_working",
+    "value": 1
+   }
+  ],
+  "gen": [
+   {
+    "type": "resource",
+    "id": "copper",
+    "value": 150,
+    "perc": true
+   },
+   {
+    "type": "resource",
+    "id": "iron",
+    "value": 150,
+    "perc": true
+   },
+   {
+    "type": "resource",
+    "id": "tools",
+    "value": 150,
+    "perc": true
+   }
+  ]
+ },
+ {
+  "id": "reward_prod5",
+  "found": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20
+  ],
+  "time": 300,
+  "req": [
+   {
+    "type": "tech",
+    "id": "guild",
+    "value": 1
+   }
+  ],
+  "gen": [
+   {
+    "type": "resource",
+    "id": "building_material",
+    "value": 150,
+    "perc": true
+   },
+   {
+    "type": "resource",
+    "id": "steel",
+    "value": 150,
+    "perc": true
+   }
+  ]
+ },
+ {
+  "id": "reward_prod6",
+  "found": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20
+  ],
+  "time": 300,
+  "req": [
+   {
+    "type": "tech",
+    "id": "guild",
+    "value": 1
+   }
+  ],
+  "gen": [
+   {
+    "type": "resource",
+    "id": "crystal",
+    "value": 150,
+    "perc": true
+   },
+   {
+    "type": "resource",
+    "id": "supplies",
+    "value": 150,
+    "perc": true
+   }
+  ]
+ },
+ {
+  "id": "reward_prod7",
+  "found": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20
+  ],
+  "time": 300,
+  "req": [
+   {
+    "type": "tech",
+    "id": "mana_engine",
+    "value": 1
+   }
+  ],
+  "gen": [
+   {
+    "type": "resource",
+    "id": "saltpetre",
+    "value": 150,
+    "perc": true
+   },
+   {
+    "type": "resource",
+    "id": "natronite",
+    "value": 150,
+    "perc": true
+   }
+  ]
+ }
+]

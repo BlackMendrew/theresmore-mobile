@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no,maximum-scale=1" />
+<meta name="theme-color" content="#202124" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<title>Theresmore</title>
+<link rel="stylesheet" href="./web/style.css" />
+</head>
+<body>
+  <header id="topbar">
+    <div id="resstrip" class="res-strip" aria-label="资源"></div>
+    <div class="status-row"><div id="statusline" class="status-line"></div>
+      <button id="gear" class="gear" data-tab="settings" aria-label="设置"></button></div>
+    <div id="gatherbar" class="gather-bar" hidden></div>
+  </header>
+
+  <main id="view" class="view"></main>
+
+  <nav id="tabbar" class="tabbar" role="tablist"></nav>
+
+  <div id="sheet" class="sheet" hidden>
+    <div class="sheet-backdrop" data-close></div>
+    <div class="sheet-panel">
+      <div class="sheet-grabber" data-close></div>
+      <h3 id="sheet-title"></h3>
+      <div id="sheet-body"></div>
+      <button class="btn btn-ghost sheet-close" data-close>关闭</button>
+    </div>
+  </div>
+
+  <div id="queuepanel" class="qpanel" hidden>
+    <div class="qpanel-backdrop" data-queue-close="1"></div>
+    <div class="qpanel-panel">
+      <h3 id="queue-title"></h3>
+      <div id="queue-body"></div>
+      <div class="qpanel-strict">
+        <span id="queue-strict-label"></span>
+        <button id="queue-strict" class="switch" role="switch" data-qstrict="1"></button>
+      </div>
+      <button class="btn btn-ghost qpanel-close" data-queue-close="1">关闭</button>
+    </div>
+  </div>
+
+  <div id="softreset" class="sreset" hidden>
+    <div class="sreset-backdrop"></div>
+    <div class="sreset-panel">
+      <h3 id="softreset-title"></h3>
+      <div id="softreset-body"></div>
+      <button id="softreset-ok" class="btn sreset-ok" data-softreset="1"></button>
+      <button id="softreset-close" class="btn btn-ghost sreset-close" data-softreset-close="1">关闭</button>
+    </div>
+  </div>
+
+  <div id="difficulty" hidden></div>
+  <div id="confirm" hidden></div>
+  <div id="notify" hidden></div>
+  <div id="toasts" class="toasts"></div>
+  <script type="module" src="./web/app.js"></script>
+</body>
+</html>

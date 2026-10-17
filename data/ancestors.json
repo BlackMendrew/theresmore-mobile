@@ -1,0 +1,175 @@
+[
+ {
+  "id": "ancestor_farmer",
+  "color": "#16a34a",
+  "gen": [
+   {
+    "type": "resource",
+    "id": "food",
+    "value": 10,
+    "perc": true
+   }
+  ]
+ },
+ {
+  "id": "ancestor_gatherer",
+  "color": "#dc2626",
+  "gen": [
+   {
+    "type": "resource",
+    "id": "stone",
+    "value": 10,
+    "perc": true
+   },
+   {
+    "type": "resource",
+    "id": "wood",
+    "value": 10,
+    "perc": true
+   }
+  ]
+ },
+ {
+  "id": "ancestor_miner",
+  "color": "#f97316",
+  "gen": [
+   {
+    "type": "resource",
+    "id": "copper",
+    "value": 10,
+    "perc": true
+   },
+   {
+    "type": "resource",
+    "id": "iron",
+    "value": 10,
+    "perc": true
+   },
+   {
+    "type": "resource",
+    "id": "tools",
+    "value": 10,
+    "perc": true
+   }
+  ]
+ },
+ {
+  "id": "ancestor_trader",
+  "color": "#8B5CF6",
+  "req": [
+   {
+    "type": "stat",
+    "id": "reset",
+    "value": 1
+   }
+  ],
+  "gen": [
+   {
+    "type": "resource",
+    "id": "gold",
+    "value": 15,
+    "perc": true
+   }
+  ]
+ },
+ {
+  "id": "ancestor_warrior",
+  "color": "#dc2626",
+  "req": [
+   {
+    "type": "stat",
+    "id": "reset",
+    "value": 2
+   }
+  ],
+  "gen": [
+   {
+    "type": "cap",
+    "id": "army",
+    "value": 25
+   }
+  ]
+ },
+ {
+  "id": "ancestor_researcher",
+  "color": "#2563eb",
+  "req": [
+   {
+    "type": "stat",
+    "id": "reset",
+    "value": 3
+   }
+  ],
+  "gen": [
+   {
+    "type": "resource",
+    "id": "research",
+    "value": 25,
+    "perc": true
+   }
+  ]
+ },
+ {
+  "id": "ancestor_spellcrafter",
+  "color": "#8B5CF6",
+  "req": [
+   {
+    "type": "stat",
+    "id": "reset",
+    "value": 4
+   }
+  ],
+  "gen": [
+   {
+    "type": "resource",
+    "id": "mana",
+    "value": 50,
+    "perc": true
+   }
+  ]
+ },
+ {
+  "id": "ancestor_forager",
+  "color": "#16a34a",
+  "req": [
+   {
+    "type": "stat",
+    "id": "reset",
+    "value": 5
+   }
+  ],
+  "gen": [
+   {
+    "type": "resource",
+    "id": "cow",
+    "value": 50,
+    "perc": true
+   },
+   {
+    "type": "resource",
+    "id": "supplies",
+    "value": 25,
+    "perc": true
+   }
+  ]
+ },
+ {
+  "id": "ancestor_believer",
+  "color": "#f97316",
+  "req": [
+   {
+    "type": "stat",
+    "id": "reset",
+    "value": 6
+   }
+  ],
+  "gen": [
+   {
+    "type": "resource",
+    "id": "faith",
+    "value": 50,
+    "perc": true
+   }
+  ]
+ }
+]

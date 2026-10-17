@@ -1,0 +1,90 @@
+[
+ {
+  "id": "horse",
+  "sell_min": 16,
+  "sell_max": 20,
+  "sell_variance": 0.01,
+  "sell_duration": 0.04,
+  "buy_min": 48,
+  "buy_max": 60,
+  "buy_variance": 0.01,
+  "buy_duration": 0.01
+ },
+ {
+  "id": "cow",
+  "sell_min": 8,
+  "sell_max": 10,
+  "sell_variance": 0.01,
+  "sell_duration": 0.04,
+  "buy_min": 24,
+  "buy_max": 30,
+  "buy_variance": 0.01,
+  "buy_duration": 0.01
+ },
+ {
+  "id": "tools",
+  "sell_min": 3.5,
+  "sell_max": 4.2,
+  "sell_variance": 0.01,
+  "sell_duration": 0.04,
+  "buy_min": 8.75,
+  "buy_max": 10.5,
+  "buy_variance": 0.01,
+  "buy_duration": 0.01
+ },
+ {
+  "id": "food",
+  "sell_min": 0.5,
+  "sell_max": 0.55,
+  "sell_variance": 0.01,
+  "sell_duration": 0.04,
+  "buy_min": 0.75,
+  "buy_max": 0.82,
+  "buy_variance": 0.01,
+  "buy_duration": 0.01
+ },
+ {
+  "id": "wood",
+  "sell_min": 1,
+  "sell_max": 1.15,
+  "sell_variance": 0.01,
+  "sell_duration": 0.04,
+  "buy_min": 2,
+  "buy_max": 2.3,
+  "buy_variance": 0.01,
+  "buy_duration": 0.01
+ },
+ {
+  "id": "stone",
+  "sell_min": 1.5,
+  "sell_max": 1.72,
+  "sell_variance": 0.01,
+  "sell_duration": 0.04,
+  "buy_min": 3,
+  "buy_max": 3.45,
+  "buy_variance": 0.01,
+  "buy_duration": 0.01
+ },
+ {
+  "id": "copper",
+  "sell_min": 3,
+  "sell_max": 3.6,
+  "sell_variance": 0.01,
+  "sell_duration": 0.04,
+  "buy_min": 7.5,
+  "buy_max": 9,
+  "buy_variance": 0.01,
+  "buy_duration": 0.01
+ },
+ {
+  "id": "iron",
+  "sell_min": 4,
+  "sell_max": 4.8,
+  "sell_variance": 0.01,
+  "sell_duration": 0.04,
+  "buy_min": 10,
+  "buy_max": 12,
+  "buy_variance": 0.01,
+  "buy_duration": 0.01
+ }
+]

@@ -1,0 +1,2887 @@
+[
+  {
+    "id": "settlement_defenses",
+    "type": "settlement",
+    "attack": 1,
+    "defense": 50,
+    "order": 0,
+    "category": 0,
+    "splash": 20
+  },
+  {
+    "id": "scout",
+    "type": "recon",
+    "attack": 2,
+    "defense": 2,
+    "order": 3,
+    "category": 0,
+    "req": [
+      {
+        "type": "tech",
+        "id": "archery",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 400
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 200
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 200
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 100
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -0.1
+      }
+    ]
+  },
+  {
+    "id": "explorer",
+    "type": "recon",
+    "attack": 5,
+    "defense": 5,
+    "order": 3,
+    "category": 0,
+    "req": [
+      {
+        "type": "tech",
+        "id": "guild",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 1000
+      },
+      {
+        "type": "resource",
+        "id": "supplies",
+        "value": 100
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 400
+      },
+      {
+        "type": "resource",
+        "id": "supplies",
+        "value": 20
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -0.2
+      }
+    ]
+  },
+  {
+    "id": "drone_u",
+    "type": "recon",
+    "attack": 10,
+    "defense": 10,
+    "order": 3,
+    "cap": 5,
+    "category": 0,
+    "req": [
+      {
+        "type": "tech",
+        "id": "drone",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "natronite",
+        "value": 100
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "natronite",
+        "value": 50
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "research",
+        "value": 5
+      }
+    ]
+  },
+  {
+    "id": "familiar",
+    "type": "recon",
+    "attack": 4,
+    "defense": 4,
+    "order": 3,
+    "cap": 5,
+    "category": 0,
+    "req": [
+      {
+        "type": "tech",
+        "id": "zenix_familiar_t",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 100
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 100
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 100
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 100
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "research",
+        "value": 0.4
+      }
+    ]
+  },
+  {
+    "id": "spy",
+    "type": "spy",
+    "attack": 7,
+    "defense": 3,
+    "order": 3,
+    "category": 0,
+    "req": [
+      {
+        "type": "tech",
+        "id": "espionage",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 1000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 100
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -0.1
+      }
+    ]
+  },
+  {
+    "id": "archer",
+    "type": "army",
+    "attack": 3,
+    "defense": 2,
+    "order": 3,
+    "category": 1,
+    "req": [
+      {
+        "type": "tech",
+        "id": "archery",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 200
+      },
+      {
+        "type": "resource",
+        "id": "wood",
+        "value": 100
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 20
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 20
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -0.2
+      }
+    ]
+  },
+  {
+    "id": "battering_ram",
+    "type": "army",
+    "attack": 14,
+    "defense": 2,
+    "order": 3,
+    "category": 1,
+    "splash": 2,
+    "req": [
+      {
+        "type": "tech",
+        "id": "warfare",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 800
+      },
+      {
+        "type": "resource",
+        "id": "wood",
+        "value": 1000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 80
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 50
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": -5
+      }
+    ]
+  },
+  {
+    "id": "crossbowman",
+    "type": "army",
+    "attack": 11,
+    "defense": 6,
+    "order": 3,
+    "category": 1,
+    "req": [
+      {
+        "type": "tech",
+        "id": "crossbow",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 1000
+      },
+      {
+        "type": "resource",
+        "id": "wood",
+        "value": 400
+      },
+      {
+        "type": "resource",
+        "id": "supplies",
+        "value": 50
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 40
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 40
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -0.5
+      }
+    ]
+  },
+  {
+    "id": "trebuchet",
+    "type": "army",
+    "attack": 28,
+    "defense": 3,
+    "order": 3,
+    "category": 1,
+    "splash": 3,
+    "req": [
+      {
+        "type": "tech",
+        "id": "siege_techniques",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 1200
+      },
+      {
+        "type": "resource",
+        "id": "wood",
+        "value": 2000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 100
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 100
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": -10
+      }
+    ]
+  },
+  {
+    "id": "white_company",
+    "type": "army",
+    "attack": 18,
+    "defense": 11,
+    "order": 3,
+    "category": 1,
+    "req": [
+      {
+        "type": "tech",
+        "id": "white_t_company",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 2500
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 75
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": -5
+      }
+    ]
+  },
+  {
+    "id": "strategist",
+    "type": "army",
+    "attack": 72,
+    "defense": 12,
+    "order": 3,
+    "cap": 1,
+    "category": 1,
+    "splash": 4,
+    "req": [
+      {
+        "type": "prayer",
+        "id": "zenix_aid",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 7500
+      },
+      {
+        "type": "resource",
+        "id": "crystal",
+        "value": 400
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 1000
+      },
+      {
+        "type": "resource",
+        "id": "crystal",
+        "value": 300
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 3
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -3
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": -12
+      }
+    ]
+  },
+  {
+    "id": "mage_u",
+    "type": "army",
+    "attack": 48,
+    "defense": 1,
+    "order": 3,
+    "cap": 50,
+    "category": 1,
+    "splash": 3,
+    "req": [
+      {
+        "type": "prayer",
+        "id": "mage_p",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "faith",
+        "value": 1250
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 1000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "faith",
+        "value": 500
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 250
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 1.2
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": -4
+      }
+    ]
+  },
+  {
+    "id": "arquebusier",
+    "type": "army",
+    "attack": 16,
+    "defense": 7,
+    "order": 3,
+    "category": 1,
+    "req": [
+      {
+        "type": "tech",
+        "id": "gunpowder",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 1500
+      },
+      {
+        "type": "resource",
+        "id": "saltpetre",
+        "value": 100
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 80
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 40
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -0.9
+      }
+    ]
+  },
+  {
+    "id": "bombard",
+    "type": "army",
+    "attack": 42,
+    "defense": 4,
+    "order": 3,
+    "category": 1,
+    "splash": 4,
+    "req": [
+      {
+        "type": "tech",
+        "id": "military_science",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 2000
+      },
+      {
+        "type": "resource",
+        "id": "steel",
+        "value": 200
+      },
+      {
+        "type": "resource",
+        "id": "saltpetre",
+        "value": 200
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 200
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": -15
+      }
+    ]
+  },
+  {
+    "id": "cannon",
+    "type": "army",
+    "attack": 88,
+    "defense": 8,
+    "order": 3,
+    "category": 1,
+    "splash": 5,
+    "req": [
+      {
+        "type": "tech",
+        "id": "field_artillery",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 5000
+      },
+      {
+        "type": "resource",
+        "id": "saltpetre",
+        "value": 1000
+      },
+      {
+        "type": "resource",
+        "id": "steel",
+        "value": 500
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 500
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": -30
+      }
+    ]
+  },
+  {
+    "id": "artillery",
+    "type": "army",
+    "attack": 160,
+    "defense": 15,
+    "order": 3,
+    "category": 1,
+    "splash": 6,
+    "req": [
+      {
+        "type": "tech",
+        "id": "metal_alloys",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 15000
+      },
+      {
+        "type": "resource",
+        "id": "saltpetre",
+        "value": 5000
+      },
+      {
+        "type": "resource",
+        "id": "steel",
+        "value": 5000
+      },
+      {
+        "type": "resource",
+        "id": "natronite",
+        "value": 2500
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 1000
+      },
+      {
+        "type": "resource",
+        "id": "natronite",
+        "value": 200
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": -40
+      }
+    ]
+  },
+  {
+    "id": "archmage_u",
+    "type": "army",
+    "attack": 260,
+    "defense": 120,
+    "order": 3,
+    "cap": 5,
+    "category": 1,
+    "splash": 7,
+    "req": [
+      {
+        "type": "prayer",
+        "id": "archmage_p",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "faith",
+        "value": 7000
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 7000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "faith",
+        "value": 1200
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 1200
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -12
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": -24
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 7
+      },
+      {
+        "type": "resource",
+        "id": "crystal",
+        "value": 3
+      }
+    ]
+  },
+  {
+    "id": "ranger",
+    "type": "army",
+    "attack": 22,
+    "defense": 15,
+    "order": 3,
+    "cap": 50,
+    "category": 1,
+    "splash": 3,
+    "req": [
+      {
+        "type": "tech",
+        "id": "guerrilla_warfare",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 1500
+      },
+      {
+        "type": "resource",
+        "id": "supplies",
+        "value": 750
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 200
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 100
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 1
+      }
+    ]
+  },
+  {
+    "id": "elf_warrior",
+    "type": "army",
+    "attack": 62,
+    "defense": 55,
+    "order": 3,
+    "cap": 25,
+    "category": 1,
+    "splash": 3,
+    "req": [
+      {
+        "type": "tech",
+        "id": "elf_warriors",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "supplies",
+        "value": 2000
+      },
+      {
+        "type": "resource",
+        "id": "crystal",
+        "value": 2000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "supplies",
+        "value": 250
+      },
+      {
+        "type": "resource",
+        "id": "crystal",
+        "value": 150
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -4
+      }
+    ]
+  },
+  {
+    "id": "marksman",
+    "type": "army",
+    "attack": 35,
+    "defense": 15,
+    "order": 3,
+    "category": 1,
+    "req": [
+      {
+        "type": "tech",
+        "id": "trenches",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 3500
+      },
+      {
+        "type": "resource",
+        "id": "saltpetre",
+        "value": 500
+      },
+      {
+        "type": "resource",
+        "id": "supplies",
+        "value": 500
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 125
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 75
+      },
+      {
+        "type": "resource",
+        "id": "supplies",
+        "value": 25
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -1.5
+      }
+    ]
+  },
+  {
+    "id": "longbowman",
+    "type": "army",
+    "attack": 91,
+    "defense": 2,
+    "order": 3,
+    "category": 1,
+    "splash": 2,
+    "req": [
+      {
+        "type": "tech",
+        "id": "trained_longbowman",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 8000
+      },
+      {
+        "type": "resource",
+        "id": "wood",
+        "value": 8000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 450
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 100
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -2.25
+      }
+    ]
+  },
+  {
+    "id": "machine_gun_u",
+    "type": "army",
+    "attack": 90,
+    "defense": 35,
+    "order": 3,
+    "category": 1,
+    "req": [
+      {
+        "type": "tech",
+        "id": "machine_gun",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 7000
+      },
+      {
+        "type": "resource",
+        "id": "natronite",
+        "value": 750
+      },
+      {
+        "type": "resource",
+        "id": "lumix",
+        "value": 200
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 150
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 50
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -1.5
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": -0.7
+      }
+    ]
+  },
+  {
+    "id": "spearman",
+    "type": "army",
+    "attack": 2,
+    "defense": 7,
+    "order": 1,
+    "category": 3,
+    "req": [
+      {
+        "type": "tech",
+        "id": "bronze_working",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 200
+      },
+      {
+        "type": "resource",
+        "id": "wood",
+        "value": 150
+      },
+      {
+        "type": "resource",
+        "id": "copper",
+        "value": 50
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 30
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 25
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -0.2
+      }
+    ]
+  },
+  {
+    "id": "phalanx",
+    "type": "army",
+    "attack": 6,
+    "defense": 20,
+    "order": 1,
+    "category": 3,
+    "req": [
+      {
+        "type": "tech",
+        "id": "phalanx_combat",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 200
+      },
+      {
+        "type": "resource",
+        "id": "wood",
+        "value": 150
+      },
+      {
+        "type": "resource",
+        "id": "iron",
+        "value": 150
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 30
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 30
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -0.3
+      }
+    ]
+  },
+  {
+    "id": "warrior_monk",
+    "type": "army",
+    "attack": 3,
+    "defense": 13,
+    "order": 1,
+    "category": 3,
+    "req": [
+      {
+        "type": "prayer",
+        "id": "prayer_for_the_ancient_monk",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "faith",
+        "value": 800
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 400
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 10
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -0.4
+      }
+    ]
+  },
+  {
+    "id": "shieldbearer",
+    "type": "army",
+    "attack": 5,
+    "defense": 23,
+    "order": 1,
+    "category": 3,
+    "req": [
+      {
+        "type": "tech",
+        "id": "bronze_working",
+        "value": 1
+      },
+      {
+        "type": "legacy",
+        "id": "shieldbearer",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 350
+      },
+      {
+        "type": "resource",
+        "id": "wood",
+        "value": 350
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 30
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 30
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -0.4
+      }
+    ]
+  },
+  {
+    "id": "priest",
+    "type": "army",
+    "attack": 1,
+    "defense": 36,
+    "order": 2,
+    "category": 3,
+    "req": [
+      {
+        "type": "tech",
+        "id": "religion",
+        "value": 1
+      },
+      {
+        "type": "legacy",
+        "id": "priest",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 800
+      },
+      {
+        "type": "resource",
+        "id": "faith",
+        "value": 800
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 80
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": -1
+      }
+    ]
+  },
+  {
+    "id": "sacred_golem",
+    "type": "army",
+    "attack": 8,
+    "defense": 22,
+    "order": 1,
+    "category": 3,
+    "trample": 50,
+    "req": [
+      {
+        "type": "prayer",
+        "id": "create_sacred_golem",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "stone",
+        "value": 2000
+      },
+      {
+        "type": "resource",
+        "id": "faith",
+        "value": 1000
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 800
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 100
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": -1.5
+      }
+    ]
+  },
+  {
+    "id": "armored_caravan_u",
+    "type": "army",
+    "attack": 3,
+    "defense": 44,
+    "order": 2,
+    "category": 3,
+    "cap": 50,
+    "trample": 50,
+    "req": [
+      {
+        "type": "prayer",
+        "id": "armored_caravan_p",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "wood",
+        "value": 10000
+      },
+      {
+        "type": "resource",
+        "id": "steel",
+        "value": 2000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "wood",
+        "value": 120
+      },
+      {
+        "type": "resource",
+        "id": "steel",
+        "value": 60
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 3
+      }
+    ]
+  },
+  {
+    "id": "cleric",
+    "type": "army",
+    "attack": 8,
+    "defense": 24,
+    "order": 2,
+    "category": 3,
+    "req": [
+      {
+        "type": "tech",
+        "id": "order_of_clerics",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "faith",
+        "value": 1800
+      },
+      {
+        "type": "resource",
+        "id": "crystal",
+        "value": 200
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 60
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -1
+      }
+    ]
+  },
+  {
+    "id": "juggernaut",
+    "type": "army",
+    "attack": 15,
+    "defense": 50,
+    "order": 1,
+    "category": 3,
+    "trample": 50,
+    "req": [
+      {
+        "type": "tech",
+        "id": "bronze_working",
+        "value": 1
+      },
+      {
+        "type": "legacy",
+        "id": "juggernaut",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 600
+      },
+      {
+        "type": "resource",
+        "id": "cow",
+        "value": 600
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 400
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 150
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 150
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -2
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": -2
+      }
+    ]
+  },
+  {
+    "id": "paladin",
+    "type": "army",
+    "attack": 28,
+    "defense": 56,
+    "order": 1,
+    "category": 3,
+    "req": [
+      {
+        "type": "prayer",
+        "id": "warrior_gods",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "faith",
+        "value": 2500
+      },
+      {
+        "type": "resource",
+        "id": "steel",
+        "value": 500
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "faith",
+        "value": 200
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 100
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "crystal",
+        "value": 0.1
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -1.5
+      }
+    ]
+  },
+  {
+    "id": "behemoth",
+    "type": "army",
+    "attack": 24,
+    "defense": 98,
+    "order": 1,
+    "cap": 20,
+    "category": 3,
+    "trample": 100,
+    "req": [
+      {
+        "type": "tech",
+        "id": "steel_flesh",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "steel",
+        "value": 3000
+      },
+      {
+        "type": "resource",
+        "id": "saltpetre",
+        "value": 1500
+      },
+      {
+        "type": "resource",
+        "id": "natronite",
+        "value": 1000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "saltpetre",
+        "value": 100
+      },
+      {
+        "type": "resource",
+        "id": "natronite",
+        "value": 100
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -6
+      }
+    ]
+  },
+  {
+    "id": "ancient_balor",
+    "type": "army",
+    "attack": 150,
+    "defense": 750,
+    "order": 1,
+    "cap": 1,
+    "category": 3,
+    "splash": 8,
+    "req": [
+      {
+        "type": "tech",
+        "id": "ancient_balor_t",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 10000
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 10000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 1000
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 1000
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "iron",
+        "value": 5
+      },
+      {
+        "type": "resource",
+        "id": "steel",
+        "value": 2
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -50
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": -50
+      }
+    ]
+  },
+  {
+    "id": "smuggler",
+    "type": "army",
+    "attack": 2,
+    "defense": 52,
+    "order": 1,
+    "category": 3,
+    "req": [
+      {
+        "type": "tech",
+        "id": "illgotten_gains",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 250
+      },
+      {
+        "type": "resource",
+        "id": "tools",
+        "value": 250
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 25
+      },
+      {
+        "type": "resource",
+        "id": "tools",
+        "value": 15
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -0.2
+      }
+    ]
+  },
+  {
+    "id": "mana_fortress_u",
+    "type": "army",
+    "attack": 20,
+    "defense": 2250,
+    "order": 1,
+    "cap": 1,
+    "category": 3,
+    "splash": 12,
+    "req": [
+      {
+        "type": "prayer",
+        "id": "mana_fortress_p",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "stone",
+        "value": 25000
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 20000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "stone",
+        "value": 10000
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 10000
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": -150
+      }
+    ]
+  },
+  {
+    "id": "high_prelate_u",
+    "type": "army",
+    "attack": 400,
+    "defense": 900,
+    "order": 3,
+    "cap": 1,
+    "category": 3,
+    "splash": 7,
+    "req": [
+      {
+        "type": "building",
+        "id": "ivory_tower_b",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "faith",
+        "value": 25000
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 25000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "faith",
+        "value": 15000
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 15000
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 35
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 35
+      },
+      {
+        "type": "resource",
+        "id": "crystal",
+        "value": 7
+      },
+      {
+        "type": "resource",
+        "id": "natronite",
+        "value": 7
+      }
+    ]
+  },
+  {
+    "id": "warrior",
+    "type": "army",
+    "attack": 8,
+    "defense": 8,
+    "order": 2,
+    "category": 2,
+    "req": [
+      {
+        "type": "tech",
+        "id": "bronze_working",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 400
+      },
+      {
+        "type": "resource",
+        "id": "copper",
+        "value": 200
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 40
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 40
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -0.4
+      }
+    ]
+  },
+  {
+    "id": "mercenary_veteran",
+    "type": "army",
+    "attack": 12,
+    "defense": 8,
+    "order": 1,
+    "category": 2,
+    "req": [
+      {
+        "type": "tech",
+        "id": "mercenary_bands",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 2500
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 150
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": -5
+      }
+    ]
+  },
+  {
+    "id": "heavy_warrior",
+    "type": "army",
+    "attack": 12,
+    "defense": 12,
+    "order": 2,
+    "category": 2,
+    "req": [
+      {
+        "type": "tech",
+        "id": "iron_working",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 800
+      },
+      {
+        "type": "resource",
+        "id": "iron",
+        "value": 300
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 70
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 70
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -0.6
+      }
+    ]
+  },
+  {
+    "id": "canava_guard",
+    "type": "army",
+    "attack": 15,
+    "defense": 15,
+    "order": 2,
+    "category": 2,
+    "trample": 50,
+    "req": [
+      {
+        "type": "tech",
+        "id": "canava_mercenary",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 2000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 50
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": -5
+      }
+    ]
+  },
+  {
+    "id": "man_at_arms",
+    "type": "army",
+    "attack": 18,
+    "defense": 14,
+    "order": 2,
+    "category": 2,
+    "req": [
+      {
+        "type": "tech",
+        "id": "plate_armor",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 1500
+      },
+      {
+        "type": "resource",
+        "id": "steel",
+        "value": 250
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 120
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 80
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -0.8
+      }
+    ]
+  },
+  {
+    "id": "line_infantry",
+    "type": "army",
+    "attack": 34,
+    "defense": 22,
+    "order": 2,
+    "category": 2,
+    "req": [
+      {
+        "type": "tech",
+        "id": "flintlock_musket",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 2500
+      },
+      {
+        "type": "resource",
+        "id": "saltpetre",
+        "value": 500
+      },
+      {
+        "type": "resource",
+        "id": "supplies",
+        "value": 250
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 250
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 120
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -1.4
+      }
+    ]
+  },
+  {
+    "id": "jager",
+    "type": "army",
+    "attack": 82,
+    "defense": 18,
+    "order": 2,
+    "cap": 100,
+    "category": 2,
+    "trample": 75,
+    "req": [
+      {
+        "type": "tech",
+        "id": "dimensional_device",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 2000
+      },
+      {
+        "type": "resource",
+        "id": "saltpetre",
+        "value": 1000
+      },
+      {
+        "type": "resource",
+        "id": "natronite",
+        "value": 500
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 200
+      },
+      {
+        "type": "resource",
+        "id": "natronite",
+        "value": 100
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -1.8
+      }
+    ]
+  },
+  {
+    "id": "colonial_militia",
+    "type": "army",
+    "attack": 7,
+    "defense": 8,
+    "order": 1,
+    "category": 2,
+    "req": [
+      {
+        "type": "tech",
+        "id": "new_world_militia",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 100
+      },
+      {
+        "type": "resource",
+        "id": "saltpetre",
+        "value": 10
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 15
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 5
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -0.1
+      }
+    ]
+  },
+  {
+    "id": "rifleman_u",
+    "type": "army",
+    "attack": 68,
+    "defense": 55,
+    "order": 2,
+    "category": 2,
+    "req": [
+      {
+        "type": "tech",
+        "id": "super_soldier",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 5000
+      },
+      {
+        "type": "resource",
+        "id": "natronite",
+        "value": 750
+      },
+      {
+        "type": "resource",
+        "id": "lumix",
+        "value": 100
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 200
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 75
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -1.6
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": -0.6
+      }
+    ]
+  },
+  {
+    "id": "battle_angel",
+    "type": "army",
+    "attack": 38,
+    "defense": 36,
+    "order": 2,
+    "category": 2,
+    "req": [
+      {
+        "type": "tech",
+        "id": "holy_fury",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "faith",
+        "value": 2000
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 600
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "faith",
+        "value": 100
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 100
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": -1
+      }
+    ]
+  },
+  {
+    "id": "commander",
+    "type": "army",
+    "attack": 30,
+    "defense": 26,
+    "order": 3,
+    "cap": 1,
+    "category": 2,
+    "trample": 100,
+    "req": [
+      {
+        "type": "tech",
+        "id": "warfare",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 2500
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 200
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 120
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -2
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": -10
+      }
+    ]
+  },
+  {
+    "id": "tamed_djinn",
+    "type": "army",
+    "attack": 40,
+    "defense": 40,
+    "order": 2,
+    "cap": 1,
+    "category": 2,
+    "splash": 4,
+    "req": [
+      {
+        "type": "prayer",
+        "id": "desire_war",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 1000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 100
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": -5
+      }
+    ]
+  },
+  {
+    "id": "general",
+    "type": "army",
+    "attack": 60,
+    "defense": 100,
+    "order": 3,
+    "cap": 1,
+    "category": 2,
+    "trample": 100,
+    "req": [
+      {
+        "type": "building",
+        "id": "officer_training_ground",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 15000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 1000
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 500
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -10
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": -30
+      }
+    ]
+  },
+  {
+    "id": "seraphim",
+    "type": "army",
+    "attack": 450,
+    "defense": 400,
+    "order": 2,
+    "cap": 1,
+    "category": 2,
+    "trample": 100,
+    "req": [
+      {
+        "type": "tech",
+        "id": "seraphim_t",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "faith",
+        "value": 10000
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 5000
+      },
+      {
+        "type": "resource",
+        "id": "crystal",
+        "value": 2000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "faith",
+        "value": 1500
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 1500
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "research",
+        "value": 15
+      },
+      {
+        "type": "resource",
+        "id": "crystal",
+        "value": 1.5
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": -25
+      }
+    ]
+  },
+  {
+    "id": "masamune_u",
+    "type": "army",
+    "attack": 900,
+    "defense": 750,
+    "order": 2,
+    "cap": 1,
+    "category": 2,
+    "splash": 6,
+    "req": [
+      {
+        "type": "tech",
+        "id": "rise_shogunate",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 50000
+      },
+      {
+        "type": "resource",
+        "id": "steel",
+        "value": 30000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 10000
+      },
+      {
+        "type": "resource",
+        "id": "steel",
+        "value": 1000
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -20
+      }
+    ]
+  },
+  {
+    "id": "nikharul_soulstealer",
+    "type": "army",
+    "attack": 1200,
+    "defense": 150,
+    "order": 2,
+    "cap": 1,
+    "category": 2,
+    "splash": 8,
+    "req": [
+      {
+        "type": "prayer",
+        "id": "summon_nikharul",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 12500
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 6000
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": -360
+      }
+    ]
+  },
+  {
+    "id": "light_cavarly",
+    "type": "army",
+    "attack": 10,
+    "defense": 4,
+    "order": 2,
+    "category": 4,
+    "trample": 60,
+    "req": [
+      {
+        "type": "tech",
+        "id": "breeding",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 400
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 300
+      },
+      {
+        "type": "resource",
+        "id": "horse",
+        "value": 25
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 60
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 40
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -0.8
+      }
+    ]
+  },
+  {
+    "id": "knight",
+    "type": "army",
+    "attack": 26,
+    "defense": 22,
+    "order": 2,
+    "category": 4,
+    "trample": 70,
+    "req": [
+      {
+        "type": "tech",
+        "id": "knighthood",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 3000
+      },
+      {
+        "type": "resource",
+        "id": "steel",
+        "value": 250
+      },
+      {
+        "type": "resource",
+        "id": "horse",
+        "value": 50
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 120
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 100
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -1.8
+      }
+    ]
+  },
+  {
+    "id": "cataphract",
+    "type": "army",
+    "attack": 18,
+    "defense": 48,
+    "order": 2,
+    "category": 4,
+    "trample": 100,
+    "req": [
+      {
+        "type": "tech",
+        "id": "persuade_nobility",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 2000
+      },
+      {
+        "type": "resource",
+        "id": "steel",
+        "value": 500
+      },
+      {
+        "type": "resource",
+        "id": "horse",
+        "value": 75
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 150
+      },
+      {
+        "type": "resource",
+        "id": "supplies",
+        "value": 50
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -0.8
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": -0.8
+      }
+    ]
+  },
+  {
+    "id": "cuirassier",
+    "type": "army",
+    "attack": 36,
+    "defense": 28,
+    "order": 2,
+    "category": 4,
+    "trample": 80,
+    "req": [
+      {
+        "type": "tech",
+        "id": "cuirassiers",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 5000
+      },
+      {
+        "type": "resource",
+        "id": "steel",
+        "value": 500
+      },
+      {
+        "type": "resource",
+        "id": "horse",
+        "value": 200
+      },
+      {
+        "type": "resource",
+        "id": "saltpetre",
+        "value": 200
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 200
+      },
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 200
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -2.8
+      }
+    ]
+  },
+  {
+    "id": "steel_rider",
+    "type": "army",
+    "attack": 52,
+    "defense": 44,
+    "order": 2,
+    "cap": 100,
+    "category": 4,
+    "trample": 90,
+    "req": [
+      {
+        "type": "tech",
+        "id": "human_dna",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 10000
+      },
+      {
+        "type": "resource",
+        "id": "steel",
+        "value": 5000
+      },
+      {
+        "type": "resource",
+        "id": "horse",
+        "value": 500
+      },
+      {
+        "type": "resource",
+        "id": "crystal",
+        "value": 500
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": 250
+      },
+      {
+        "type": "resource",
+        "id": "crystal",
+        "value": 100
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "food",
+        "value": -5
+      }
+    ]
+  },
+  {
+    "id": "cpt_galliard",
+    "type": "army",
+    "attack": 80,
+    "defense": 65,
+    "order": 2,
+    "cap": 1,
+    "category": 4,
+    "trample": 100,
+    "req": [
+      {
+        "type": "tech",
+        "id": "cpt_galliard_t",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 10000
+      },
+      {
+        "type": "resource",
+        "id": "horse",
+        "value": 3000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 1000
+      },
+      {
+        "type": "resource",
+        "id": "supplies",
+        "value": 1000
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 30
+      }
+    ]
+  },
+  {
+    "id": "avatar_fate_u",
+    "type": "army",
+    "attack": 1250,
+    "defense": 1000,
+    "order": 2,
+    "cap": 1,
+    "category": 4,
+    "splash": 5,
+    "req": [
+      {
+        "type": "tech",
+        "id": "avatar_fate",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "faith",
+        "value": 90000
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 90000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "faith",
+        "value": 9000
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 9000
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "faith",
+        "value": 25
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 25
+      }
+    ]
+  },
+  {
+    "id": "vaelgoroth_u",
+    "type": "army",
+    "attack": 3200,
+    "defense": 3600,
+    "order": 3,
+    "cap": 1,
+    "category": 4,
+    "splash": 15,
+    "req": [
+      {
+        "type": "tech",
+        "id": "vaelgoroth_t",
+        "value": 1
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 100000
+      }
+    ],
+    "reqAttack": [
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 10000
+      }
+    ],
+    "gen": [
+      {
+        "type": "resource",
+        "id": "gold",
+        "value": 500
+      },
+      {
+        "type": "resource",
+        "id": "mana",
+        "value": 500
+      }
+    ]
+  }
+]

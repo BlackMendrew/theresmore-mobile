@@ -1,0 +1,1345 @@
+[
+  {
+    "id": "ancient_giant",
+    "type": "enemy",
+    "attack": 250,
+    "defense": 16000,
+    "order": 3,
+    "cap": 1,
+    "category": 3,
+    "trample": 100
+  },
+  {
+    "id": "ancient_ghost",
+    "type": "enemy",
+    "attack": 140,
+    "defense": 34,
+    "order": 2,
+    "category": 4
+  },
+  {
+    "id": "ancient_legionary",
+    "type": "enemy",
+    "attack": 26,
+    "defense": 158,
+    "order": 1,
+    "category": 3
+  },
+  {
+    "id": "aqrabuamelu",
+    "type": "enemy",
+    "attack": 46,
+    "defense": 63,
+    "order": 1,
+    "category": 2
+  },
+  {
+    "id": "archdemon",
+    "type": "enemy",
+    "attack": 90,
+    "defense": 52,
+    "order": 3,
+    "category": 2,
+    "splash": 2
+  },
+  {
+    "id": "archlich",
+    "type": "enemy",
+    "attack": 120,
+    "defense": 90,
+    "order": 3,
+    "cap": 1,
+    "category": 1,
+    "splash": 8
+  },
+  {
+    "id": "ball_lightning",
+    "type": "enemy",
+    "attack": 55,
+    "defense": 20,
+    "order": 1,
+    "category": 4,
+    "splash": 2
+  },
+  {
+    "id": "balor",
+    "type": "enemy",
+    "attack": 195,
+    "defense": 150,
+    "order": 1,
+    "category": 2,
+    "splash": 5
+  },
+  {
+    "id": "bandit",
+    "type": "enemy",
+    "attack": 3,
+    "defense": 4,
+    "order": 1,
+    "category": 2
+  },
+  {
+    "id": "barbarian_chosen",
+    "type": "enemy",
+    "attack": 30,
+    "defense": 12,
+    "order": 1,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "barbarian_drummer",
+    "type": "enemy",
+    "attack": 6,
+    "defense": 18,
+    "order": 2,
+    "category": 3
+  },
+  {
+    "id": "barbarian_leader",
+    "type": "enemy",
+    "attack": 48,
+    "defense": 22,
+    "order": 1,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "barbarian_king",
+    "type": "enemy",
+    "attack": 76,
+    "defense": 56,
+    "order": 3,
+    "cap": 1,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "barbarian_warrior",
+    "type": "enemy",
+    "attack": 13,
+    "defense": 6,
+    "order": 1,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "baron_mordecai_darkthorn",
+    "type": "enemy",
+    "attack": 915,
+    "defense": 1750,
+    "order": 3,
+    "cap": 1,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "basilisk",
+    "type": "enemy",
+    "attack": 35,
+    "defense": 16,
+    "order": 1,
+    "category": 1
+  },
+  {
+    "id": "black_mage",
+    "type": "enemy",
+    "attack": 52,
+    "defense": 22,
+    "order": 3,
+    "cap": 1,
+    "category": 1,
+    "splash": 5
+  },
+  {
+    "id": "blue_dragon_u",
+    "type": "enemy",
+    "attack": 750,
+    "defense": 2750,
+    "order": 2,
+    "cap": 1,
+    "category": 4,
+    "trample": 90
+  },
+  {
+    "id": "bugbear",
+    "type": "enemy",
+    "attack": 7,
+    "defense": 16,
+    "order": 1,
+    "category": 3
+  },
+  {
+    "id": "bugbear_chieftain",
+    "type": "enemy",
+    "attack": 44,
+    "defense": 32,
+    "order": 2,
+    "cap": 1,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "bulette",
+    "type": "enemy",
+    "attack": 140,
+    "defense": 110,
+    "order": 1,
+    "category": 4,
+    "trample": 100
+  },
+  {
+    "id": "cavarly_archer",
+    "type": "enemy",
+    "attack": 18,
+    "defense": 10,
+    "order": 3,
+    "category": 4
+  },
+  {
+    "id": "charmed_dweller",
+    "type": "enemy",
+    "attack": 4,
+    "defense": 4,
+    "order": 1,
+    "category": 2
+  },
+  {
+    "id": "cyclop",
+    "type": "enemy",
+    "attack": 25,
+    "defense": 76,
+    "order": 1,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "cult_master",
+    "type": "enemy",
+    "attack": 80,
+    "defense": 55,
+    "order": 3,
+    "cap": 1,
+    "category": 1
+  },
+  {
+    "id": "daimyo",
+    "type": "enemy",
+    "attack": 90,
+    "defense": 90,
+    "order": 3,
+    "cap": 1,
+    "category": 1,
+    "trample": 100
+  },
+  {
+    "id": "dark_knight",
+    "type": "enemy",
+    "attack": 250,
+    "defense": 250,
+    "order": 2,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "dark_knight_lord",
+    "type": "enemy",
+    "attack": 6000,
+    "defense": 9000,
+    "order": 3,
+    "cap": 1,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "demoness",
+    "type": "enemy",
+    "attack": 50,
+    "defense": 80,
+    "order": 3,
+    "cap": 1,
+    "category": 1
+  },
+  {
+    "id": "demonic_musketeer",
+    "type": "enemy",
+    "attack": 20,
+    "defense": 20,
+    "order": 2,
+    "category": 2
+  },
+  {
+    "id": "deserter",
+    "type": "enemy",
+    "attack": 7,
+    "defense": 6,
+    "order": 2,
+    "category": 2
+  },
+  {
+    "id": "dirty_rat",
+    "type": "enemy",
+    "attack": 1,
+    "defense": 1,
+    "order": 1,
+    "category": 4
+  },
+  {
+    "id": "djinn",
+    "type": "enemy",
+    "attack": 46,
+    "defense": 36,
+    "order": 2,
+    "cap": 1,
+    "category": 1
+  },
+  {
+    "id": "draconic_diver",
+    "type": "enemy",
+    "attack": 20,
+    "defense": 10,
+    "order": 2,
+    "category": 4
+  },
+  {
+    "id": "draconic_leader",
+    "type": "enemy",
+    "attack": 80,
+    "defense": 65,
+    "order": 3,
+    "category": 1,
+    "trample": 100
+  },
+  {
+    "id": "draconic_mage",
+    "type": "enemy",
+    "attack": 32,
+    "defense": 10,
+    "order": 3,
+    "category": 1,
+    "splash": 2
+  },
+  {
+    "id": "draconic_warrior",
+    "type": "enemy",
+    "attack": 8,
+    "defense": 14,
+    "order": 1,
+    "category": 2
+  },
+  {
+    "id": "earth_elemental",
+    "type": "enemy",
+    "attack": 20,
+    "defense": 48,
+    "order": 1,
+    "category": 3,
+    "trample": 100
+  },
+  {
+    "id": "eternal_guardian",
+    "type": "enemy",
+    "attack": 22,
+    "defense": 84,
+    "order": 1,
+    "category": 3
+  },
+  {
+    "id": "ettin",
+    "type": "enemy",
+    "attack": 39,
+    "defense": 67,
+    "order": 1,
+    "category": 3,
+    "trample": 100
+  },
+  {
+    "id": "faceless_horror",
+    "type": "enemy",
+    "attack": 76,
+    "defense": 108,
+    "order": 2,
+    "category": 4,
+    "trample": 100
+  },
+  {
+    "id": "fallen_angel",
+    "type": "enemy",
+    "attack": 150,
+    "defense": 100,
+    "order": 3,
+    "cap": 1,
+    "category": 2,
+    "splash": 5
+  },
+  {
+    "id": "fire_elemental",
+    "type": "enemy",
+    "attack": 28,
+    "defense": 28,
+    "order": 1,
+    "category": 1,
+    "splash": 2
+  },
+  {
+    "id": "fire_salamander",
+    "type": "enemy",
+    "attack": 32,
+    "defense": 20,
+    "order": 1,
+    "category": 4
+  },
+  {
+    "id": "frost_elemental",
+    "type": "enemy",
+    "attack": 20,
+    "defense": 42,
+    "order": 1,
+    "category": 1
+  },
+  {
+    "id": "frost_giant",
+    "type": "enemy",
+    "attack": 112,
+    "defense": 140,
+    "order": 2,
+    "cap": 1,
+    "category": 3,
+    "trample": 100
+  },
+  {
+    "id": "galliard",
+    "type": "enemy",
+    "attack": 70,
+    "defense": 120,
+    "order": 2,
+    "cap": 1,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "gargoyle",
+    "type": "enemy",
+    "attack": 8,
+    "defense": 28,
+    "order": 1,
+    "category": 3
+  },
+  {
+    "id": "ghast",
+    "type": "enemy",
+    "attack": 6,
+    "defense": 8,
+    "order": 2,
+    "category": 4
+  },
+  {
+    "id": "ghoul",
+    "type": "enemy",
+    "attack": 4,
+    "defense": 5,
+    "order": 1,
+    "category": 2
+  },
+  {
+    "id": "ghost",
+    "type": "enemy",
+    "attack": 5,
+    "defense": 5,
+    "order": 2,
+    "category": 4
+  },
+  {
+    "id": "giant_death_robot",
+    "type": "enemy",
+    "attack": 6000,
+    "defense": 8000,
+    "order": 2,
+    "cap": 1,
+    "category": 1,
+    "splash": 5
+  },
+  {
+    "id": "giant_snake",
+    "type": "enemy",
+    "attack": 16,
+    "defense": 8,
+    "order": 2,
+    "category": 4
+  },
+  {
+    "id": "giant_spider",
+    "type": "enemy",
+    "attack": 10,
+    "defense": 8,
+    "order": 2,
+    "category": 4
+  },
+  {
+    "id": "giant_wasp",
+    "type": "enemy",
+    "attack": 8,
+    "defense": 4,
+    "order": 1,
+    "category": 4
+  },
+  {
+    "id": "gnoll_leader",
+    "type": "enemy",
+    "attack": 23,
+    "defense": 18,
+    "order": 2,
+    "cap": 1,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "gnoll_raider",
+    "type": "enemy",
+    "attack": 6,
+    "defense": 5,
+    "order": 1,
+    "category": 2
+  },
+  {
+    "id": "goblin_marauder",
+    "type": "enemy",
+    "attack": 3,
+    "defense": 3,
+    "order": 1,
+    "category": 1
+  },
+  {
+    "id": "goblin_overlord",
+    "type": "enemy",
+    "attack": 20,
+    "defense": 15,
+    "order": 3,
+    "cap": 1,
+    "category": 2,
+    "splash": 5
+  },
+  {
+    "id": "goblin_warrior",
+    "type": "enemy",
+    "attack": 3,
+    "defense": 4,
+    "order": 2,
+    "category": 2
+  },
+  {
+    "id": "goblin_wolfrider",
+    "type": "enemy",
+    "attack": 6,
+    "defense": 7,
+    "order": 2,
+    "category": 4,
+    "trample": 100
+  },
+  {
+    "id": "golem",
+    "type": "enemy",
+    "attack": 11,
+    "defense": 42,
+    "order": 1,
+    "category": 3
+  },
+  {
+    "id": "gorgon",
+    "type": "enemy",
+    "attack": 950,
+    "defense": 600,
+    "order": 1,
+    "cap": 1,
+    "category": 2
+  },
+  {
+    "id": "greater_demon",
+    "type": "enemy",
+    "attack": 16,
+    "defense": 16,
+    "order": 3,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "griffin",
+    "type": "enemy",
+    "attack": 42,
+    "defense": 58,
+    "order": 1,
+    "category": 4
+  },
+  {
+    "id": "gulud",
+    "type": "enemy",
+    "attack": 250,
+    "defense": 180,
+    "order": 3,
+    "cap": 1,
+    "category": 1,
+    "splash": 6
+  },
+  {
+    "id": "hand_evil",
+    "type": "enemy",
+    "attack": 950,
+    "defense": 8000,
+    "order": 3,
+    "cap": 1,
+    "category": 2,
+    "splash": 7
+  },
+  {
+    "id": "harpy",
+    "type": "enemy",
+    "attack": 6,
+    "defense": 6,
+    "order": 1,
+    "category": 4
+  },
+  {
+    "id": "hill_giant",
+    "type": "enemy",
+    "attack": 20,
+    "defense": 36,
+    "order": 1,
+    "category": 3,
+    "trample": 100
+  },
+  {
+    "id": "hobgoblin_archer",
+    "type": "enemy",
+    "attack": 11,
+    "defense": 4,
+    "order": 3,
+    "category": 1
+  },
+  {
+    "id": "hobgoblin_chieftain",
+    "type": "enemy",
+    "attack": 20,
+    "defense": 34,
+    "order": 2,
+    "cap": 1,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "hobgoblin_grunt",
+    "type": "enemy",
+    "attack": 6,
+    "defense": 12,
+    "order": 1,
+    "category": 3,
+    "trample": 100
+  },
+  {
+    "id": "hydra",
+    "type": "enemy",
+    "attack": 950,
+    "defense": 900,
+    "order": 1,
+    "cap": 1,
+    "category": 4,
+    "splash": 4
+  },
+  {
+    "id": "hover_tank",
+    "type": "enemy",
+    "attack": 30,
+    "defense": 120,
+    "order": 1,
+    "category": 3,
+    "trample": 100
+  },
+  {
+    "id": "immense_door",
+    "type": "enemy",
+    "attack": 120,
+    "defense": 80000,
+    "order": 1,
+    "cap": 1,
+    "category": 3
+  },
+  {
+    "id": "imp",
+    "type": "enemy",
+    "attack": 3,
+    "defense": 1,
+    "order": 2,
+    "category": 1
+  },
+  {
+    "id": "katana_samurai",
+    "type": "enemy",
+    "attack": 26,
+    "defense": 28,
+    "order": 1,
+    "category": 2
+  },
+  {
+    "id": "kobold",
+    "type": "enemy",
+    "attack": 3,
+    "defense": 2,
+    "order": 1,
+    "category": 2
+  },
+  {
+    "id": "kobold_champion",
+    "type": "enemy",
+    "attack": 5,
+    "defense": 12,
+    "order": 1,
+    "category": 3
+  },
+  {
+    "id": "kobold_king",
+    "type": "enemy",
+    "attack": 42,
+    "defense": 48,
+    "order": 1,
+    "cap": 1,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "korrigan_slinger",
+    "type": "enemy",
+    "attack": 3,
+    "defense": 2,
+    "order": 2,
+    "category": 1
+  },
+  {
+    "id": "korrigan_swindler",
+    "type": "enemy",
+    "attack": 3,
+    "defense": 5,
+    "order": 1,
+    "category": 2
+  },
+  {
+    "id": "lead_golem",
+    "type": "enemy",
+    "attack": 22,
+    "defense": 72,
+    "order": 1,
+    "category": 3
+  },
+  {
+    "id": "lesser_demon",
+    "type": "enemy",
+    "attack": 8,
+    "defense": 8,
+    "order": 1,
+    "category": 3
+  },
+  {
+    "id": "lich",
+    "type": "enemy",
+    "attack": 60,
+    "defense": 50,
+    "order": 3,
+    "cap": 1,
+    "category": 1,
+    "splash": 3
+  },
+  {
+    "id": "lizard_archer",
+    "type": "enemy",
+    "attack": 13,
+    "defense": 6,
+    "order": 3,
+    "category": 1
+  },
+  {
+    "id": "lizard_commander",
+    "type": "enemy",
+    "attack": 50,
+    "defense": 75,
+    "order": 3,
+    "category": 1
+  },
+  {
+    "id": "lizard_shaman",
+    "type": "enemy",
+    "attack": 22,
+    "defense": 32,
+    "order": 3,
+    "category": 1
+  },
+  {
+    "id": "lizard_warrior",
+    "type": "enemy",
+    "attack": 12,
+    "defense": 12,
+    "order": 1,
+    "category": 2
+  },
+  {
+    "id": "lonely_ent_u",
+    "type": "enemy",
+    "attack": 250,
+    "defense": 9000,
+    "order": 1,
+    "cap": 1,
+    "category": 3,
+    "trample": 100
+  },
+  {
+    "id": "markanat",
+    "type": "enemy",
+    "attack": 900,
+    "defense": 600,
+    "order": 1,
+    "cap": 1,
+    "category": 4,
+    "trample": 100
+  },
+  {
+    "id": "mechanical_wolf",
+    "type": "enemy",
+    "attack": 26,
+    "defense": 12,
+    "order": 2,
+    "category": 4
+  },
+  {
+    "id": "mindless_evil_u",
+    "type": "enemy",
+    "attack": 12000,
+    "defense": 150000,
+    "order": 3,
+    "cap": 1,
+    "category": 1,
+    "splash": 12
+  },
+  {
+    "id": "minotaur",
+    "type": "enemy",
+    "attack": 1000,
+    "defense": 1800,
+    "order": 1,
+    "cap": 1,
+    "category": 3,
+    "trample": 100
+  },
+  {
+    "id": "mist_evil",
+    "type": "enemy",
+    "attack": 1,
+    "defense": 35000,
+    "order": 1,
+    "cap": 1,
+    "category": 3,
+    "splash": 20
+  },
+  {
+    "id": "mobile_turret",
+    "type": "enemy",
+    "attack": 150,
+    "defense": 30,
+    "order": 3,
+    "category": 2
+  },
+  {
+    "id": "mountain_giant",
+    "type": "enemy",
+    "attack": 34,
+    "defense": 42,
+    "order": 3,
+    "category": 3,
+    "trample": 100
+  },
+  {
+    "id": "musket_ashigaru",
+    "type": "enemy",
+    "attack": 22,
+    "defense": 18,
+    "order": 2,
+    "category": 2
+  },
+  {
+    "id": "myconid",
+    "type": "enemy",
+    "attack": 3,
+    "defense": 10,
+    "order": 1,
+    "category": 3
+  },
+  {
+    "id": "naga",
+    "type": "enemy",
+    "attack": 12,
+    "defense": 12,
+    "order": 1,
+    "category": 4
+  },
+  {
+    "id": "naga_princess",
+    "type": "enemy",
+    "attack": 380,
+    "defense": 1020,
+    "order": 3,
+    "cap": 1,
+    "category": 4,
+    "trample": 100
+  },
+  {
+    "id": "naga_royal_guard",
+    "type": "enemy",
+    "attack": 110,
+    "defense": 80,
+    "order": 2,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "necromancer",
+    "type": "enemy",
+    "attack": 28,
+    "defense": 15,
+    "order": 3,
+    "cap": 1,
+    "category": 1,
+    "splash": 4
+  },
+  {
+    "id": "nikharul",
+    "type": "enemy",
+    "attack": 780,
+    "defense": 1020,
+    "order": 3,
+    "cap": 1,
+    "category": 1,
+    "splash": 9
+  },
+  {
+    "id": "oda_ashigaru_u",
+    "type": "enemy",
+    "attack": 10,
+    "defense": 60,
+    "order": 1,
+    "category": 3
+  },
+  {
+    "id": "oda_nobunaga_u",
+    "type": "enemy",
+    "attack": 600,
+    "defense": 600,
+    "order": 3,
+    "cap": 1,
+    "category": 2,
+    "splash": 5
+  },
+  {
+    "id": "oni",
+    "type": "enemy",
+    "attack": 45,
+    "defense": 99,
+    "order": 1,
+    "category": 3
+  },
+  {
+    "id": "orc_champion",
+    "type": "enemy",
+    "attack": 35,
+    "defense": 130,
+    "order": 1,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "orc_berserker",
+    "type": "enemy",
+    "attack": 55,
+    "defense": 11,
+    "order": 1,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "orc_flame_caster",
+    "type": "enemy",
+    "attack": 45,
+    "defense": 12,
+    "order": 3,
+    "category": 1,
+    "splash": 3
+  },
+  {
+    "id": "orc_ironskin",
+    "type": "enemy",
+    "attack": 18,
+    "defense": 169,
+    "order": 1,
+    "category": 3
+  },
+  {
+    "id": "orc_shaman",
+    "type": "enemy",
+    "attack": 33,
+    "defense": 28,
+    "order": 3,
+    "category": 1
+  },
+  {
+    "id": "orc_stone_thrower",
+    "type": "enemy",
+    "attack": 31,
+    "defense": 10,
+    "order": 3,
+    "category": 1
+  },
+  {
+    "id": "orc_warg_rider",
+    "type": "enemy",
+    "attack": 33,
+    "defense": 70,
+    "order": 2,
+    "category": 4,
+    "trample": 100
+  },
+  {
+    "id": "orc_warlord",
+    "type": "enemy",
+    "attack": 70,
+    "defense": 150,
+    "order": 2,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "orc_warrior",
+    "type": "enemy",
+    "attack": 25,
+    "defense": 63,
+    "order": 1,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "orc_worker",
+    "type": "enemy",
+    "attack": 17,
+    "defense": 48,
+    "order": 1,
+    "category": 3
+  },
+  {
+    "id": "pillager",
+    "type": "enemy",
+    "attack": 3,
+    "defense": 5,
+    "order": 1,
+    "category": 2
+  },
+  {
+    "id": "raider",
+    "type": "enemy",
+    "attack": 22,
+    "defense": 10,
+    "order": 1,
+    "category": 4
+  },
+  {
+    "id": "ravenous_crab",
+    "type": "enemy",
+    "attack": 2,
+    "defense": 1,
+    "order": 1,
+    "category": 4
+  },
+  {
+    "id": "red_dragon",
+    "type": "enemy",
+    "attack": 280,
+    "defense": 180,
+    "order": 3,
+    "cap": 1,
+    "category": 4,
+    "splash": 12
+  },
+  {
+    "id": "snake",
+    "type": "enemy",
+    "attack": 4,
+    "defense": 4,
+    "order": 1,
+    "category": 4
+  },
+  {
+    "id": "spider",
+    "type": "enemy",
+    "attack": 3,
+    "defense": 2,
+    "order": 1,
+    "category": 4
+  },
+  {
+    "id": "sluagh",
+    "type": "enemy",
+    "attack": 26,
+    "defense": 6,
+    "order": 1,
+    "category": 4
+  },
+  {
+    "id": "skeleton",
+    "type": "enemy",
+    "attack": 2,
+    "defense": 2,
+    "order": 1,
+    "category": 3
+  },
+  {
+    "id": "skeletal_knight",
+    "type": "enemy",
+    "attack": 18,
+    "defense": 22,
+    "order": 1,
+    "category": 2
+  },
+  {
+    "id": "skullface",
+    "type": "enemy",
+    "attack": 76,
+    "defense": 60,
+    "order": 3,
+    "cap": 1,
+    "category": 1,
+    "trample": 100
+  },
+  {
+    "id": "son_atamar",
+    "type": "enemy",
+    "attack": 22,
+    "defense": 20,
+    "order": 1,
+    "category": 2
+  },
+  {
+    "id": "spawn_evil",
+    "type": "enemy",
+    "attack": 54,
+    "defense": 11,
+    "order": 2,
+    "category": 4
+  },
+  {
+    "id": "spectra_memory",
+    "type": "enemy",
+    "attack": 5,
+    "defense": 8,
+    "order": 1,
+    "category": 3
+  },
+  {
+    "id": "succubus",
+    "type": "enemy",
+    "attack": 37,
+    "defense": 23,
+    "order": 1,
+    "category": 2
+  },
+  {
+    "id": "succubus_queen",
+    "type": "enemy",
+    "attack": 1500,
+    "defense": 1750,
+    "order": 2,
+    "cap": 1,
+    "category": 1,
+    "splash": 5
+  },
+  {
+    "id": "swamp_horror",
+    "type": "enemy",
+    "attack": 900,
+    "defense": 1400,
+    "order": 1,
+    "cap": 1,
+    "category": 3,
+    "trample": 100
+  },
+  {
+    "id": "titan",
+    "type": "enemy",
+    "attack": 1,
+    "defense": 52000,
+    "order": 1,
+    "cap": 1,
+    "category": 2,
+    "splash": 40
+  },
+  {
+    "id": "trap",
+    "type": "enemy",
+    "attack": 8,
+    "defense": 41,
+    "order": 1,
+    "category": 3
+  },
+  {
+    "id": "troll_cave",
+    "type": "enemy",
+    "attack": 16,
+    "defense": 28,
+    "order": 1,
+    "category": 3,
+    "trample": 100
+  },
+  {
+    "id": "troll_battle",
+    "type": "enemy",
+    "attack": 42,
+    "defense": 56,
+    "order": 1,
+    "category": 2,
+    "trample": 100
+  },
+  {
+    "id": "tyrannosaurus",
+    "type": "enemy",
+    "attack": 1750,
+    "defense": 1200,
+    "order": 1,
+    "cap": 1,
+    "category": 4,
+    "trample": 100
+  },
+  {
+    "id": "vampire",
+    "type": "enemy",
+    "attack": 80,
+    "defense": 90,
+    "order": 3,
+    "cap": 1,
+    "category": 2
+  },
+  {
+    "id": "vampire_bat",
+    "type": "enemy",
+    "attack": 2,
+    "defense": 1,
+    "order": 1,
+    "category": 4
+  },
+  {
+    "id": "vampire_servant",
+    "type": "enemy",
+    "attack": 15,
+    "defense": 32,
+    "order": 1,
+    "category": 3
+  },
+  {
+    "id": "velociraptors",
+    "type": "enemy",
+    "attack": 37,
+    "defense": 22,
+    "order": 1,
+    "category": 4
+  },
+  {
+    "id": "warg",
+    "type": "enemy",
+    "attack": 22,
+    "defense": 18,
+    "order": 1,
+    "category": 4,
+    "trample": 100
+  },
+  {
+    "id": "water_minion_u",
+    "type": "enemy",
+    "attack": 37,
+    "defense": 22,
+    "order": 1,
+    "category": 1,
+    "splash": 5
+  },
+  {
+    "id": "werewolf",
+    "type": "enemy",
+    "attack": 1150,
+    "defense": 600,
+    "order": 1,
+    "cap": 1,
+    "category": 1,
+    "trample": 100
+  },
+  {
+    "id": "wendigo",
+    "type": "enemy",
+    "attack": 47,
+    "defense": 39,
+    "order": 1,
+    "category": 2
+  },
+  {
+    "id": "wind_elemental",
+    "type": "enemy",
+    "attack": 22,
+    "defense": 42,
+    "order": 1,
+    "category": 1,
+    "splash": 3
+  },
+  {
+    "id": "wolf",
+    "type": "enemy",
+    "attack": 4,
+    "defense": 4,
+    "order": 1,
+    "category": 4
+  },
+  {
+    "id": "wyvern",
+    "type": "enemy",
+    "attack": 32,
+    "defense": 28,
+    "order": 2,
+    "category": 4,
+    "trample": 100
+  },
+  {
+    "id": "zombie",
+    "type": "enemy",
+    "attack": 3,
+    "defense": 3,
+    "order": 1,
+    "category": 3
+  },
+  {
+    "id": "ash_elemental",
+    "type": "enemy",
+    "attack": 95,
+    "defense": 128,
+    "order": 1,
+    "category": 1,
+    "splash": 2
+  },
+  {
+    "id": "vaelgoroth_crimson_doom",
+    "type": "enemy",
+    "attack": 900,
+    "defense": 2100,
+    "order": 3,
+    "cap": 1,
+    "category": 4,
+    "splash": 7
+  },
+  {
+    "id": "azrathis_flamebinder",
+    "type": "enemy",
+    "attack": 2300,
+    "defense": 500,
+    "order": 3,
+    "cap": 1,
+    "category": 2,
+    "splash": 9
+  }
+]

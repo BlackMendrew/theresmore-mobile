@@ -1,0 +1,67 @@
+[
+ {
+  "tech": "archery",
+  "img": "img_army",
+  "desc": "img_army_description"
+ },
+ {
+  "tech": "feudalism",
+  "img": "img_feudalism",
+  "desc": "img_feudalism_description"
+ },
+ {
+  "tech": "astronomy",
+  "img": "img_astronomy",
+  "desc": "img_astronomy_description"
+ },
+ {
+  "tech": "mana_engine",
+  "img": "img_mana_engine",
+  "desc": "img_mana_engine_description"
+ },
+ {
+  "tech": "holy_fury",
+  "img": "img_holy_fury",
+  "desc": "img_holy_fury_description"
+ },
+ {
+  "tech": "glorious_retirement",
+  "img": "img_glorious_retirement",
+  "desc": "img_glorious_retirement_description"
+ },
+ {
+  "tech": "theresmore_richest_nation",
+  "img": "img_theresmore_richest_nation",
+  "desc": "img_theresmore_richest_nation_description"
+ },
+ {
+  "tech": "the_journey",
+  "img": "img_colony",
+  "desc": "img_colony_description"
+ },
+ {
+  "tech": "strange_encounter",
+  "img": "img_strange_encounter",
+  "desc": "img_strange_encounter_description"
+ },
+ {
+  "tech": "the_portal_t",
+  "img": "img_the_portal",
+  "desc": "img_the_portal_description"
+ },
+ {
+  "tech": "save_theresmore",
+  "img": "img_ending",
+  "desc": "img_ending_description"
+ },
+ {
+  "tech": "launch_annhilator",
+  "img": "img_annhilator",
+  "desc": "img_annhilator_description"
+ },
+ {
+  "tech": "lonely_ent",
+  "img": "img_swamp_ent",
+  "desc": "img_swamp_ent_description"
+ }
+]
